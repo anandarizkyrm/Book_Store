@@ -22,7 +22,7 @@
       </form>
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('home') }}">
+          <a class="nav-link" href="{{ route('admin') }}">
             <i class="material-icons">dashboard</i>
             <p class="d-lg-none d-md-block">
               {{ __('Stats') }}
