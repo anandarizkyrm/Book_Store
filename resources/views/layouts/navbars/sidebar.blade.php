@@ -17,7 +17,7 @@
             <p>{{ __('Dashboard') }}</p>
         </a>
       </li>
-      <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
+      <li class="nav-item {{ ($activePage == 'product' || $activePage == 'add-product') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse"  href="#product" aria-expanded="true">
         <i class="material-icons">content_paste</i>
           <p>{{ __('Produk') }}
@@ -26,14 +26,14 @@
         </a>
         <div class="collapse" id="product">
           <ul class="nav">
-            <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('profile.edit') }}">
+            <li class="nav-item{{ $activePage == 'product' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('product') }}">
                 <span class="sidebar-mini"> LP </span>
                 <span class="sidebar-normal">{{ __('List Product') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('user.index') }}">
+            <li class="nav-item{{ $activePage == 'add-product' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('add-product') }}">
                 <span class="sidebar-mini"> TP </span>
                 <span class="sidebar-normal"> {{ __('Tambah Produk') }} </span>
               </a>
@@ -41,7 +41,7 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
+      <li class="nav-item {{ ($activePage == 'category' || $activePage == 'add-category') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse"  href="#category" aria-expanded="true">
         <i class="material-icons">content_paste</i>
           <p>{{ __('Kategori') }}
@@ -50,14 +50,14 @@
         </a>
         <div class="collapse" id="category">
           <ul class="nav">
-            <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('profile.edit') }}">
+            <li class="nav-item{{ $activePage == 'category' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('category') }}">
                 <span class="sidebar-mini"> LK </span>
                 <span class="sidebar-normal">{{ __('List Kategori') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('user.index') }}">
+            <li class="nav-item{{ $activePage == 'add-category' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('add-category') }}">
                 <span class="sidebar-mini"> TK </span>
                 <span class="sidebar-normal"> {{ __('Tambah Kategori') }} </span>
               </a>
@@ -65,7 +65,7 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item {{ ($activePage == 'profile' || $activePage == 'user-management') ? ' active' : '' }}">
+      <li class="nav-item {{ ($activePage == 'theme' || $activePage == 'add-theme') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse"  href="#theme" aria-expanded="true">
         <i class="material-icons">content_paste</i>
           <p>{{ __('Tema') }}
@@ -74,14 +74,14 @@
         </a>
         <div class="collapse" id="theme">
           <ul class="nav">
-            <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('profile.edit') }}">
+            <li class="nav-item{{ $activePage == 'theme' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('theme') }}">
                 <span class="sidebar-mini"> LT </span>
                 <span class="sidebar-normal">{{ __('List Tema') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('user.index') }}">
+            <li class="nav-item{{ $activePage == 'add-theme' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('add-theme') }}">
                 <span class="sidebar-mini"> TT </span>
                 <span class="sidebar-normal"> {{ __('Tambah Tema') }} </span>
               </a>
