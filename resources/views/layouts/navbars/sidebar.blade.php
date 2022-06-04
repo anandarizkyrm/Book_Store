@@ -27,16 +27,16 @@
         <div class="collapse" id="product">
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'product' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('product') }}">
+              <a class="nav-link" href="{{ route('product.index') }}">
                 <span class="sidebar-mini"> LP </span>
-                <span class="sidebar-normal">{{ __('List Product') }} </span>
+                <span class="sidebar-normal">{{ __('List Product') }}  </span>
               </a>
             </li>
             <li class="nav-item{{ $activePage == 'add-product' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('add-product') }}">
+              {{-- <a class="nav-link" href="{{ route('add-product') }}">
                 <span class="sidebar-mini"> TP </span>
                 <span class="sidebar-normal"> {{ __('Tambah Produk') }} </span>
-              </a>
+              </a> --}}
             </li>
           </ul>
         </div>
@@ -51,13 +51,13 @@
         <div class="collapse" id="category">
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'category' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('category') }}">
+              <a class="nav-link" href="{{ route('category.index') }}">
                 <span class="sidebar-mini"> LK </span>
                 <span class="sidebar-normal">{{ __('List Kategori') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'add-category' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('add-category') }}">
+            <li class="nav-item{{ $activePage == 'category' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('category.store') }}">
                 <span class="sidebar-mini"> TK </span>
                 <span class="sidebar-normal"> {{ __('Tambah Kategori') }} </span>
               </a>
@@ -75,13 +75,13 @@
         <div class="collapse" id="theme">
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'theme' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('theme') }}">
+              <a class="nav-link" href="{{ route('tema.index') }}">
                 <span class="sidebar-mini"> LT </span>
                 <span class="sidebar-normal">{{ __('List Tema') }} </span>
               </a>
             </li>
             <li class="nav-item{{ $activePage == 'add-theme' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('add-theme') }}">
+              <a class="nav-link" href="{{ route('tema.store') }}">
                 <span class="sidebar-mini"> TT </span>
                 <span class="sidebar-normal"> {{ __('Tambah Tema') }} </span>
               </a>
