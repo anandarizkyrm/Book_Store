@@ -13,7 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return ('category.index').with("category", ["category1", "category2", "category3"]);
+        return view('admin.category.index')->with("categorys", "Ini Kategory");
     }
 
     /**

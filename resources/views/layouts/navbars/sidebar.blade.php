@@ -1,9 +1,10 @@
-<div class="sidebar" data-color="orange" data-background-color="white" data-image="{{ asset('material') }}/img/sidebar-1.jpg">
+<div class="sidebar" data-color="green" data-background-color="white" data-image="{{ asset('material') }}/img/sidebar-1.jpg">
   <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
       Tip 2: you can also add an image using data-image tag
   -->
+
   <div class="logo">
     <a href="https://creative-tim.com/" class="simple-text logo-normal">
     ADMIN ILKIYA 
@@ -17,7 +18,7 @@
             <p>{{ __('Dashboard') }}</p>
         </a>
       </li>
-      <li class="nav-item {{ ($activePage == 'product' || $activePage == 'add-product') ? ' active' : '' }}">
+      <li class="nav-item{{  Request::is('/admin/product') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse"  href="#product" aria-expanded="true">
         <i class="material-icons">content_paste</i>
           <p>{{ __('Produk') }}
@@ -26,17 +27,17 @@
         </a>
         <div class="collapse" id="product">
           <ul class="nav">
-            <li class="nav-item{{ $activePage == 'product' ? ' active' : '' }}">
+            <li class="nav-item">
               <a class="nav-link" href="{{ route('product.index') }}">
                 <span class="sidebar-mini"> LP </span>
                 <span class="sidebar-normal">{{ __('List Product') }}  </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'add-product' ? ' active' : '' }}">
-              {{-- <a class="nav-link" href="{{ route('add-product') }}">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('product.store') }}">
                 <span class="sidebar-mini"> TP </span>
                 <span class="sidebar-normal"> {{ __('Tambah Produk') }} </span>
-              </a> --}}
+              </a>
             </li>
           </ul>
         </div>
@@ -101,12 +102,7 @@
             <p>{{ __('Pesanan') }}</p>
         </a>
       </li>
-      <li class="nav-item{{ $activePage == 'notifications' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('notifications') }}">
-          <i class="material-icons">notifications</i>
-          <p>{{ __('Notifications') }}</p>
-        </a>
-      </li>
+     
       <li class="nav-item{{ $activePage == 'notifications' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('notifications') }}">
           <i class="material-icons">book</i>

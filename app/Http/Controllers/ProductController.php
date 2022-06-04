@@ -13,7 +13,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return ('product.index').with("product", ["product1", "product2", "product3"]);
+        return view('admin.product.index')->with("product", "ini produk");
     }
 
     /**

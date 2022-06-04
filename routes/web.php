@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,7 +26,7 @@ Auth::routes();
 
 Route::get('/admin', 'App\Http\Controllers\AdminController@index')->name('admin')->middleware('auth');
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['prefix'=>'/admin', ['middleware' => 'auth']], function () {
 	Route::get('table-list', function () {
 		return view('pages.table_list');
 	})->name('table');
@@ -41,9 +43,9 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('pages.map');
 	})->name('map');
 
-	Route::resource('product', 'ProductController');
-	Route::resource('category', 'CategoryController');
-	Route::resource('tema', 'ThemeController');
+	Route::resource('product', ProductController::class)->name('*', 'data');
+	Route::resource('category', CategoryController::class)->name('*','category');
+	Route::resource('tema', ThemeController::class);
 
 	Route::get('notifications', function () {
 		return view('pages.notifications');

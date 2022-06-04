@@ -13,7 +13,7 @@ class ThemeController extends Controller
      */
     public function index()
     {
-        return ('tema.index').with("tema", ["tema1", "tema2", "tema3"]);
+        return view('admin.tema.index')->with("tema", "ini Tema");
     }
 
     /**
