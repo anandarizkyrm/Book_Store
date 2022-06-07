@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-namespace App\Models\Book;
+use App\Models\Book;
 use Illuminate\Http\Request;
+use App\DataTables\BookDataTable; 
 
 class ProductController extends Controller
 {
@@ -11,10 +12,12 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(BookDataTable $dataTable)
+   
     {
-        $product = Book::get(); 
-        return view('admin.product.index')->with(["product", $product]);
+    
+        $product = Book::getAllBook(); 
+        return $dataTable->render('admin.product.index');
     }
 
     /**

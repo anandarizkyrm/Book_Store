@@ -26,7 +26,7 @@ Auth::routes();
 
 Route::get('/admin', 'App\Http\Controllers\AdminController@index')->name('admin')->middleware('auth');
 
-Route::group(['prefix'=>'/admin', ['middleware' => 'auth']], function () {
+Route::group(['prefix'=>'/admin', 'middleware' => 'auth'], function () {
 	Route::get('table-list', function () {
 		return view('pages.table_list');
 	})->name('table');

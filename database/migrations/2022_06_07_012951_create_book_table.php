@@ -19,6 +19,7 @@ class CreateBookTable extends Migration
             $table->string('slug');
             $table->text('summary');
             $table->longText('description');
+            $table->integer('stock')->default(1);
             $table->text('image');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->float('price');

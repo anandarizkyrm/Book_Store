@@ -9,10 +9,10 @@ class Book extends Model
 {
     use HasFactory;
     protected    
-    $fillable = ['name', 'slug', 'summary', 'description', 'image', 'status', 'price', 'category_id', 'writer_id', 'publisher_id'];
+    $fillable = ['name', 'slug', 'summary', 'description', 'image', 'status', 'stock', 'price', 'category_id', 'writer_id', 'publisher_id'];
 
     public function category(){
-        return $this->hasOne('App/Models/Category'::class);
+        return $this->belongsTo(Category::class);
     } 
 
     public function writer(){
@@ -24,7 +24,8 @@ class Book extends Model
     }
 
     public static function getAllBook(){
-        return Product::with('category')->orderBy('id', 'desc')->paginate(10);
+        return Book::with('category')->orderBy('id', 'desc')->paginate(10);
+     
     }
 
     public function getReview(){
