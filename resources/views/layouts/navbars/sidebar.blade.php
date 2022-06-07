@@ -18,7 +18,7 @@
             <p>{{ __('Dashboard') }}</p>
         </a>
       </li>
-      <li class="nav-item{{  Request::is('/admin/product') ? ' active' : '' }}">
+      <li class="nav-item">
         <a class="nav-link" data-toggle="collapse"  href="#product" aria-expanded="true">
         <i class="material-icons">content_paste</i>
           <p>{{ __('Produk') }}
@@ -27,14 +27,14 @@
         </a>
         <div class="collapse" id="product">
           <ul class="nav">
-            <li class="nav-item">
+            <li class="nav-item {{  Request::is('admin/product') ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('product.index') }}">
                 <span class="sidebar-mini"> LP </span>
                 <span class="sidebar-normal">{{ __('List Product') }}  </span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('product.store') }}">
+            <li class="nav-item {{ Request::is('admin/product/create') ? ' active' : ''}}">
+              <a class="nav-link" href="{{ route('product.create') }}">
                 <span class="sidebar-mini"> TP </span>
                 <span class="sidebar-normal"> {{ __('Tambah Produk') }} </span>
               </a>

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+namespace App\Models\Book;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -13,7 +13,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('admin.product.index')->with("product", "ini produk");
+        $product = Book::get(); 
+        return view('admin.product.index')->with(["product", $product]);
     }
 
     /**
@@ -23,7 +24,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.product.create')->with("product", "ini create produk");
     }
 
     /**

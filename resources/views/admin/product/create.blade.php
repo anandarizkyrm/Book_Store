@@ -1,6 +1,4 @@
-dd($product);
-
-{{-- @extends('layouts.app', ['activePage' => 'profile', 'titlePage' => __('Product')])
+@extends('layouts.app', ['activePage' => 'profile', 'titlePage' => __('Product')])
 
 @section('content')
   <div class="content">
@@ -13,7 +11,7 @@ dd($product);
 
             <div class="card ">
               <div class="card-header card-header-primary">
-                <h4 class="card-title">{{ __('Product List') }}</h4>
+                <h4 class="card-title">{{ __($product) }}</h4>
                 <p class="card-category">{{ __('User information') }}</p>
               </div>
               <div class="card-body ">
@@ -123,4 +121,4 @@ dd($product);
       </div>
     </div>
   </div>
-@endsection --}}
+@endsection
