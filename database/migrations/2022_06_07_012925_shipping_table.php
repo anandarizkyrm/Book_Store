@@ -28,6 +28,6 @@ class ShippingTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('shipping');
     }
 }

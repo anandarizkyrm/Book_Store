@@ -17,12 +17,14 @@ class WriterSeeder extends Seeder
        $data =[
         [
             'name' => 'Thomas Valley',
+            'email' => 'thomas@any.gmail.com',
             'created_at' => now(),
             'updated_at' => now()
 
         ],
         [
             'name' => 'Barkley Imamo',
+            'email' => 'barkley@gmail.com',
             'created_at' => now(),
             'updated_at' => now()
 

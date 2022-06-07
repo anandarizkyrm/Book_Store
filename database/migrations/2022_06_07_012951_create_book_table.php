@@ -27,7 +27,7 @@ class CreateBookTable extends Migration
             $table->unsignedBigInteger('publisher_id')->nullable();
             $table->foreign('category_id')->references('id')->on('category')->onDelete('SET NULL');
             $table->foreign('writer_id')->references('id')->on('writer')->onDelete('SET NULL');;
-            $table->foreign('publisher_id')->reference('id')->on('publisher')->onDelete('SET NULL');
+            $table->foreign('publisher_id')->references('id')->on('publishers')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

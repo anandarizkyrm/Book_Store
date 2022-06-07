@@ -13,7 +13,18 @@ class CartTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('carts', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('book_id')->nullable();
+            $table->unsignedBigInteger('order_id')->nullable();
+            $table->float('price');
+            $table->enum('status',['new','progress', 'delivered', 'cancel'])->default('new');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('CASCADE');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('SET NULL');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +34,6 @@ class CartTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('carts');
     }
 }

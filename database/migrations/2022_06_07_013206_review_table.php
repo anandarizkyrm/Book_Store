@@ -13,7 +13,17 @@ class ReviewTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('review', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->unsignedBigInteger('book_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('SET NULL');
+            $table->tinyInteger('rating')->default(0);
+            $table->enum('status',['active','inactive'])->default('active');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +33,6 @@ class ReviewTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('review');
     }
 }

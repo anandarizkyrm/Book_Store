@@ -25,6 +25,7 @@ class BookSeeder extends Seeder
                 'price' => '100000',
                 'category_id' => 1,
                 'writer_id' => 1,
+                'publisher_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
 
@@ -39,6 +40,7 @@ class BookSeeder extends Seeder
                 'price' => '100000',
                 'category_id' => 2,
                 'writer_id' => 2,
+                'publisher_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now()
 
@@ -53,6 +55,7 @@ class BookSeeder extends Seeder
                 'price' => '100000',
                 'category_id' => 1,
                 'writer_id' => 2,
+                'publisher_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now()
 

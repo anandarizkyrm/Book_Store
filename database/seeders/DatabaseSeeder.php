@@ -16,7 +16,16 @@ class DatabaseSeeder extends Seeder
         // $this->call([UsersTableSeeder::class]);
         $this->call([CategorySeeder::class]);
         $this->call([WriterSeeder::class]);
+     
+        // $this->call([CartSeeder::class]);
+        $this->call([PublisherSeeder::class]);
+        // $this->call([NotificationSeeder::class]);
+        // $this->call([ShippingSeeder::class]);
+        // $this->call([OrderSeeder::class]);
+        $this->call([UsersTableSeeder::class]);
+        $this->call([ReviewSeeder::class]);
         $this->call([BookSeeder::class]);
+    
 
     }
 }
