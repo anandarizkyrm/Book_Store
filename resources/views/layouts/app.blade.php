@@ -74,8 +74,8 @@
         <!-- Material Dashboard DEMO methods, don't include it in your project! -->
         <script src="{{ asset('material') }}/demo/demo.js"></script>
         <script src="{{ asset('material') }}/js/settings.js"></script>
-        {{-- <script src="{{ mix('js/app.js') }}"></script>
-        <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script> --}}
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         @stack('js')
     </body>
 </html>

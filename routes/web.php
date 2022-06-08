@@ -6,6 +6,8 @@ use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\WriterController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,8 +53,9 @@ Route::group(['prefix'=>'/admin', 'middleware' => 'auth'], function () {
 
 	Route::resource('publisher', PublisherController::class)->name('*','publisher');
 	Route::resource('writer', WriterController::class)->name('*','writer');
+	Route::resource('user', UserController::class)->name('*','user');
 
-	Route::get('/income','OrderController@incomeChart')->name('book.order.income');
+	Route::get('/income',[OrderController::class, 'incomeChart'])->name('book.order.income');
 
 	Route::get('notifications', function () {
 		return view('pages.notifications');
@@ -68,7 +71,7 @@ Route::group(['prefix'=>'/admin', 'middleware' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
+	// Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);

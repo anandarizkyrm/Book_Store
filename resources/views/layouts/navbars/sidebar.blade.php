@@ -114,8 +114,8 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item{{ $activePage == 'icons' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('icons') }}">
+      <li class="nav-item{{ $activePage == 'user' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('user.index') }}">
           <i class="material-icons">bubble_chart</i>
           <p>{{ __('Pengguna') }}</p>
         </a>
