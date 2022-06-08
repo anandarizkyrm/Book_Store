@@ -5,120 +5,225 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ route('profile.update') }}" autocomplete="off" class="form-horizontal">
-            @csrf
-            @method('put')
-
-            <div class="card ">
-              <div class="card-header card-header-primary">
-                <h4 class="card-title">{{ __($product) }}</h4>
-                <p class="card-category">{{ __('User information') }}</p>
-              </div>
-              <div class="card-body ">
-                @if (session('status'))
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <div class="alert alert-success">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <i class="material-icons">close</i>
-                        </button>
-                        <span>{{ session('status') }}</span>
-                      </div>
-                    </div>
-                  </div>
-                @endif
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Name') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Name') }}" value="{{ old('name', auth()->user()->name) }}" required="true" aria-required="true"/>
-                      @if ($errors->has('name'))
-                        <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('name') }}</span>
-                      @endif
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Email') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" id="input-email" type="email" placeholder="{{ __('Email') }}" value="{{ old('email', auth()->user()->email) }}" required />
-                      @if ($errors->has('email'))
-                        <span id="email-error" class="error text-danger" for="input-email">{{ $errors->first('email') }}</span>
-                      @endif
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
-              </div>
+          <form method="post" action="{{route('product.store')}}">
+            {{csrf_field()}}
+            <div class="form-group">
+              <label for="inputTitle" class="col-form-label">Title <span class="text-danger">*</span></label>
+              <input id="inputTitle" type="text" name="title" placeholder="Enter title"  value="{{old('title')}}" class="form-control">
+              @error('title')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
+    
+            <div class="form-group">
+              <label for="summary" class="col-form-label">Summary <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="summary" name="summary">{{old('summary')}}</textarea>
+              @error('summary')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
+    
+            <div class="form-group">
+              <label for="description" class="col-form-label">Description</label>
+              <textarea class="form-control" id="description" name="description">{{old('description')}}</textarea>
+              @error('description')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
+    
+    
+            <div class="form-group">
+              <label for="is_featured">Is Featured</label><br>
+              <input type="checkbox" name='is_featured' id='is_featured' value='1' checked> Yes                        
+            </div>
+                  {{-- {{$categories}} --}}
+    
+            <div class="form-group">
+              <label for="cat_id">Category <span class="text-danger">*</span></label>
+              <select name="cat_id" id="cat_id" class="form-control">
+                  <option value="">--Select any category--</option>
+                  @foreach($category as $key=>$cat_data)
+                      <option value='{{$cat_data->id}}'>{{$cat_data->title}}</option>
+                  @endforeach
+              </select>
+            </div>
+    
+            <div class="form-group d-none" id="child_cat_div">
+              <label for="child_cat_id">Sub Category</label>
+              <select name="child_cat_id" id="child_cat_id" class="form-control">
+                  <option value="">--Select any category--</option>
+                  {{-- @foreach($parent_cats as $key=>$parent_cat)
+                      <option value='{{$parent_cat->id}}'>{{$parent_cat->title}}</option>
+                  @endforeach --}}
+              </select>
+            </div>
+    
+            <div class="form-group">
+              <label for="price" class="col-form-label">Price(NRS) <span class="text-danger">*</span></label>
+              <input id="price" type="number" name="price" placeholder="Enter price"  value="{{old('price')}}" class="form-control">
+              @error('price')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
+    
+            <div class="form-group">
+              <label for="discount" class="col-form-label">Discount(%)</label>
+              <input id="discount" type="number" name="discount" min="0" max="100" placeholder="Enter discount"  value="{{old('discount')}}" class="form-control">
+              @error('discount')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
+            <div class="form-group">
+              <label for="size">Size</label>
+              <select name="size[]" class="form-control selectpicker"  multiple data-live-search="true">
+                  <option value="">--Select any size--</option>
+                  <option value="S">Small (S)</option>
+                  <option value="M">Medium (M)</option>
+                  <option value="L">Large (L)</option>
+                  <option value="XL">Extra Large (XL)</option>
+              </select>
+            </div>
+    
+            <div class="form-group">
+              <label for="publisher_id">publisher</label>
+              {{-- {{$publishers}} --}}
+    
+              <select name="publisher_id" class="form-control">
+                  <option value="">--Select publisher--</option>
+                 @foreach($publishers as $publisher)
+                  <option value="{{$publisher->id}}">{{$publisher->title}}</option>
+                 @endforeach
+              </select>
+            </div>
+    
+            <div class="form-group">
+              <label for="condition">Condition</label>
+              <select name="condition" class="form-control">
+                  <option value="">--Select Condition--</option>
+                  <option value="default">Default</option>
+                  <option value="new">New</option>
+                  <option value="hot">Hot</option>
+              </select>
+            </div>
+    
+            <div class="form-group">
+              <label for="stock">Quantity <span class="text-danger">*</span></label>
+              <input id="quantity" type="number" name="stock" min="0" placeholder="Enter quantity"  value="{{old('stock')}}" class="form-control">
+              @error('stock')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
+            <div class="form-group">
+              <label for="inputPhoto" class="col-form-label">Photo <span class="text-danger">*</span></label>
+              <div class="input-group">
+                  <span class="input-group-btn">
+                      <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                      <i class="fa fa-picture-o"></i> Choose
+                      </a>
+                  </span>
+              <input id="thumbnail" class="form-control" type="text" name="photo" value="{{old('photo')}}">
+            </div>
+            <div id="holder" style="margin-top:15px;max-height:100px;"></div>
+              @error('photo')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
+            
+            <div class="form-group">
+              <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
+              <select name="status" class="form-control">
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+              </select>
+              @error('status')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
+            <div class="form-group mb-3">
+              <button type="reset" class="btn btn-warning">Reset</button>
+               <button class="btn btn-success" type="submit">Submit</button>
             </div>
           </form>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <form method="post" action="{{ route('profile.password') }}" class="form-horizontal">
-            @csrf
-            @method('put')
-
-            <div class="card ">
-              <div class="card-header card-header-primary">
-                <h4 class="card-title">{{ __('Change password') }}</h4>
-                <p class="card-category">{{ __('Password') }}</p>
-              </div>
-              <div class="card-body ">
-                @if (session('status_password'))
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <div class="alert alert-success">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <i class="material-icons">close</i>
-                        </button>
-                        <span>{{ session('status_password') }}</span>
-                      </div>
-                    </div>
-                  </div>
-                @endif
-                <div class="row">
-                  <label class="col-sm-2 col-form-label" for="input-current-password">{{ __('Current Password') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('old_password') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('old_password') ? ' is-invalid' : '' }}" input type="password" name="old_password" id="input-current-password" placeholder="{{ __('Current Password') }}" value="" required />
-                      @if ($errors->has('old_password'))
-                        <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('old_password') }}</span>
-                      @endif
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label" for="input-password">{{ __('New Password') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" id="input-password" type="password" placeholder="{{ __('New Password') }}" value="" required />
-                      @if ($errors->has('password'))
-                        <span id="password-error" class="error text-danger" for="input-password">{{ $errors->first('password') }}</span>
-                      @endif
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label" for="input-password-confirmation">{{ __('Confirm New Password') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group">
-                      <input class="form-control" name="password_confirmation" id="input-password-confirmation" type="password" placeholder="{{ __('Confirm New Password') }}" value="" required />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-primary">{{ __('Change password') }}</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+    
     </div>
   </div>
 @endsection
+
+
+@push('styles')
+<link rel="stylesheet" href="{{asset('backend/summernote/summernote.min.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+@endpush
+
+@push('js')
+<script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+<script src="{{asset('backend/summernote/summernote.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+<script>
+    $('#lfm').filemanager('image');
+
+    $(document).ready(function() {
+      $('#summary').summernote({
+        placeholder: "Write short description.....",
+          tabsize: 2,
+          height: 100
+      });
+    });
+
+    $(document).ready(function() {
+      $('#description').summernote({
+        placeholder: "Write detail description.....",
+          tabsize: 2,
+          height: 150
+      });
+    });
+    // $('select').selectpicker();
+
+</script>
+
+<script>
+  $('#cat_id').change(function(){
+    var cat_id=$(this).val();
+    // alert(cat_id);
+    if(cat_id !=null){
+      // Ajax call
+      $.ajax({
+        url:"/admin/category/"+cat_id+"/child",
+        data:{
+          _token:"{{csrf_token()}}",
+          id:cat_id
+        },
+        type:"POST",
+        success:function(response){
+          if(typeof(response) !='object'){
+            response=$.parseJSON(response)
+          }
+          // console.log(response);
+          var html_option="<option value=''>----Select sub category----</option>"
+          if(response.status){
+            var data=response.data;
+            // alert(data);
+            if(response.data){
+              $('#child_cat_div').removeClass('d-none');
+              $.each(data,function(id,title){
+                html_option +="<option value='"+id+"'>"+title+"</option>"
+              });
+            }
+            else{
+            }
+          }
+          else{
+            $('#child_cat_div').addClass('d-none');
+          }
+          $('#child_cat_id').html(html_option);
+        }
+      });
+    }
+    else{
+    }
+  })
+</script>
+@endpush

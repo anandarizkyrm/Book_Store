@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\DataTables\BookDataTable; 
 use App\Models\Writer;
 use App\Models\Publisher;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
@@ -29,7 +30,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.product.create')->with("product", "ini create produk");
+        $publishers=Publisher::get();
+        $category=Category::get();
+        return view('admin.product.create')->with("publishers", $publishers)->with("category", $category);
     }
 
     /**
