@@ -10,6 +10,7 @@ class Category extends Model
 
     protected $fillable=['name','slug'];
     public $table = "category";
+    
     public function books(){
         return $this->hasMany(Book::class);
     }   
@@ -19,7 +20,7 @@ class Category extends Model
     }
 
     public static function countActiveCategory(){
-        $data=Category::where('status','active')->count();
+        $data=Category::get()->count();
         if($data){
             return $data;
         }

@@ -30,9 +30,18 @@ class BookDataTable extends DataTable
      * @param \App\Models\Book $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
+
+    public function ajax()
+    {
+        return $this->datatables
+            ->eloquent($this->query())
+            ->make(true);
+    }
     public function query(Book $model)
     {
-        return $model->newQuery();
+   
+    $book = Book::select(); 
+    return $this->applyScopes($book);
     }
 
     /**
@@ -43,18 +52,18 @@ class BookDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('book-table')
+                    ->setTableId('books-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+                    ->orderBy(1);
+                    // ->buttons(
+                    //     Button::make('create'),
+                    //     Button::make('export'),
+                    //     Button::make('print'),
+                    //     Button::make('reset'),
+                    //     Button::make('reload')
+                    // );
     }
 
     /**

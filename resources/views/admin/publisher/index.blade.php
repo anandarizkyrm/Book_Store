@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'profile', 'titlePage' => __('Category')])
+@extends('layouts.app', ['activePage' => 'profile', 'titlePage' => __('Publisher')])
 
 @section('content')
  <!-- DataTales Example -->
@@ -10,47 +10,50 @@
       </div> --}}
   </div>
  <div class="card-header py-3">
-   <h6 class="m-0 font-weight-bold text-primary float-left">category List</h6>
-   <a href="{{route('category.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Add category</a>
+   <h6 class="m-0 font-weight-bold text-primary float-left">Daftar Penerbit</h6>
+   <a href="{{route('publisher.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"> <i class="material-icons">add</i> Add publisher</a>
  </div>
  <div class="card-body">
    <div class="table-responsive">
-     @if(count($category)>0)
-     <table class="table" id="category-dataTable" width="100%" cellspacing="0">
+     @if(count($publisher)>0)
+     <table class="table" id="publisher-dataTable" width="100%" cellspacing="0">
        <thead>
          <tr>
            <th>No.</th>
-           <th>Title</th>
-           <th>Slug</th>
+           <th>Nama</th>
+           <th>Email</th>
+           <th>Alamat</th>
            <th>Action</th>
          </tr>
        </thead>
        <tfoot>
          <tr>
            <th>No.</th>
-           <th>Title</th>
-           <th>Slug</th>
+           <th>Nama</th>
+           <th>Email</th>
+           <th>Alamat</th>
            <th>Action</th>
            </tr>
        </tfoot>
        <tbody>
-         @foreach($category as $category)   
+         @foreach($publisher as $publisher)   
              <tr>
-                 <td>{{$category->id}}</td>
-                 <td>{{$category->name}}</td>
-                 <td>{{$category->slug}}</td>
+                 <td>{{$loop->index + 1}}</td>
+                 <td>{{$publisher->name}}</td>
+                 <td>{{$publisher->email}}</td>
+                 <td style="width: 30%">{{$publisher->address}}</td>
                 
                  <td >
-                  {{-- <a href="{{route('product.edit',$category->id)}}" class="btn btn-primary btn-sm" style="height:30px; width:20px;" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="material-icons">edit</i></a> --}}
+                  {{-- <a href="{{route('product.edit',$publisher->id)}}" class="btn btn-primary btn-sm" style="height:30px; width:20px;" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="material-icons">edit</i></a> --}}
                   <div class="d-flex">
-                    <a href="{{route('product.edit', $category->id)}}" class="btn btn-warning btn-sm btn-round btn-just-icon">
+                    <a href="{{route('product.edit', $publisher->id)}}" class="btn btn-warning btn-sm btn-round btn-just-icon">
                       <i class="material-icons">edit</i>
                       <div class="ripple-container"></div>
                     </a>
-                  <form method="POST" action="{{route('product.destroy',[$category->id])}}">
+                  <form method="POST" action="{{route('product.destroy',[$publisher->id])}}">
                     @csrf
                     @method('delete')
-                        <button c class="btn btn-danger btn-sm btn-round btn-just-icon" data-id={{$category->id}} data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>
+                        <button c class="btn btn-danger btn-sm btn-round btn-just-icon" data-id={{$publisher->id}} data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>
                    </form>
                   </div>
                 </td>
@@ -78,9 +81,9 @@
          @endforeach
        </tbody>
      </table>
-     {{-- <span style="float:right">{{$category->links()}}</span> --}}
+     {{-- <span style="float:right">{{$publisher->links()}}</span> --}}
      @else
-       <h6 class="text-center">No categorys found!!! Please create category</h6>
+       <h6 class="text-center">No categorys found!!! Please create publisher</h6>
      @endif
    </div>
  </div>
@@ -116,7 +119,7 @@
 <script src="{{asset('backend/js/demo/datatables-demo.js')}}"></script>
 <script>
    
-   $('#category-dataTable').DataTable();
+   $('#publisher-dataTable').DataTable();
 
      // Sweet alert
 

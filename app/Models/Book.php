@@ -16,15 +16,15 @@ class Book extends Model
     } 
 
     public function writer(){
-        return $this->belongsTo('App/Models/Writer'::class);
+        return $this->belongsTo(Writer::class);
     }
 
     public function publisher(){
-        return $this->belongsTo('App/Models/Publisher'::class);
+        return $this->belongsTo(Publisher::class);
     }
 
     public static function getAllBook(){
-        return Book::with('category')->orderBy('id', 'desc')->paginate(10);
+        return Book::with('category')->orderBy('id', 'desc')->paginate(10   );
      
     }
 
@@ -37,15 +37,24 @@ class Book extends Model
     }
 
     public static function getBookBySlug($slug){
-        return Product::with(['category_id','rel_books','getReview'])->where('slug',$slug)->first();
+        return Book::with(['category_id','rel_books','getReview'])->where('slug',$slug)->first();
     }
     public static function countActiveBook(){
-        $data=Product::where('status','active')->count();
+        $data=Book::where('status','active')->count();
         
         if($data){
             return $data;
         }
         return 0;
+    }
+
+    public static function countStockBook(){
+        $book = Book::get();
+        $count = 0;
+        foreach($book as $b){
+            $count += $b->stock;
+        }
+        return $count;
     }
 
     

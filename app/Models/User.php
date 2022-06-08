@@ -46,4 +46,19 @@ class User extends Authenticatable
     public function orders (){
         return $this->hasMany(Order::class);
     }
+
+    public function getTotalUser(){
+        $user = User::get();
+
+        $count = 0 ;
+
+        foreach($user as $u){
+            if($u->role == 'user'){
+                $count++;
+            }
+        
+        }
+        return $count;
+
+    }
 }

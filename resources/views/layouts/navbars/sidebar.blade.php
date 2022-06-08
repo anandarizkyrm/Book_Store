@@ -20,8 +20,8 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse"  href="#product" aria-expanded="true">
-        <i class="material-icons">content_paste</i>
-          <p>{{ __('Produk') }}
+        <i class="material-icons">business_center</i>
+          <p>{{ __('Produk/Buku') }}
             <b class="caret"></b>
           </p>
         </a>
@@ -44,8 +44,8 @@
       </li>
       <li class="nav-item {{ ($activePage == 'category' || $activePage == 'add-category') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse"  href="#category" aria-expanded="true">
-        <i class="material-icons">content_paste</i>
-          <p>{{ __('Kategori') }}
+        <i class="material-icons">category</i>
+          <p>{{ __('Kategori Buku') }}
             <b class="caret"></b>
           </p>
         </a>
@@ -66,25 +66,49 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item {{ ($activePage == 'theme' || $activePage == 'add-theme') ? ' active' : '' }}">
-        <a class="nav-link" data-toggle="collapse"  href="#theme" aria-expanded="true">
-        <i class="material-icons">content_paste</i>
-          <p>{{ __('Tema') }}
+      <li class="nav-item {{ ($activePage == 'publisher' || $activePage == 'add-publisher') ? ' active' : '' }}">
+        <a class="nav-link" data-toggle="collapse"  href="#publisher" aria-expanded="true">
+        <i class="material-icons">emoji_people</i>
+          <p>{{ __('Penerbit') }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse" id="theme">
+        <div class="collapse" id="publisher">
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'theme' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('tema.index') }}">
+              <a class="nav-link" href="{{ route('publisher.index') }}">
                 <span class="sidebar-mini"> LT </span>
-                <span class="sidebar-normal">{{ __('List Tema') }} </span>
+                <span class="sidebar-normal">{{ __('List Penerbit') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'add-theme' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('tema.store') }}">
+            <li class="nav-item{{ $activePage == 'add-penerbit' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('publisher.store') }}">
                 <span class="sidebar-mini"> TT </span>
-                <span class="sidebar-normal"> {{ __('Tambah Tema') }} </span>
+                <span class="sidebar-normal"> {{ __('Tambah Penerbit') }} </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item {{ ($activePage == 'writer' || $activePage == 'add-writer') ? ' active' : '' }}">
+        <a class="nav-link" data-toggle="collapse"  href="#writer" aria-expanded="true">
+        <i class="material-icons">create</i>
+          <p>{{ __('Penulis') }}
+            <b class="caret"></b>
+          </p>
+        </a>
+        <div class="collapse" id="writer">
+          <ul class="nav">
+            <li class="nav-item{{ $activePage == 'theme' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('writer.index') }}">
+                <span class="sidebar-mini"> LT </span>
+                <span class="sidebar-normal">{{ __('List Penulis') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'add-penerbit' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('writer.store') }}">
+                <span class="sidebar-mini"> TT </span>
+                <span class="sidebar-normal"> {{ __('Tambah Penulis') }} </span>
               </a>
             </li>
           </ul>
@@ -94,6 +118,12 @@
         <a class="nav-link" href="{{ route('icons') }}">
           <i class="material-icons">bubble_chart</i>
           <p>{{ __('Pengguna') }}</p>
+        </a>
+      </li>
+      <li class="nav-item{{ $activePage == 'money' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('icons') }}">
+          <i class="material-icons">money</i>
+          <p>{{ __('Keuangan') }}</p>
         </a>
       </li>
       <li class="nav-item{{ $activePage == 'map' ? ' active' : '' }}">

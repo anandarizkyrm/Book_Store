@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class ShippingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,10 +12,8 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-
     {
-        $category = Category::get();
-        return view('admin.category.index')->with("category", $category);
+        //
     }
 
     /**

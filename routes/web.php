@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\WriterController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,7 +48,11 @@ Route::group(['prefix'=>'/admin', 'middleware' => 'auth'], function () {
 
 	Route::resource('product', ProductController::class)->name('*', 'data');
 	Route::resource('category', CategoryController::class)->name('*','category');
-	Route::resource('tema', ThemeController::class);
+
+	Route::resource('publisher', PublisherController::class)->name('*','publisher');
+	Route::resource('writer', WriterController::class)->name('*','writer');
+
+	Route::get('/income','OrderController@incomeChart')->name('book.order.income');
 
 	Route::get('notifications', function () {
 		return view('pages.notifications');

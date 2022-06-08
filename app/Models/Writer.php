@@ -9,6 +9,7 @@ class Writer extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'email'];
+    public $table = "writer";
 
     public function books()
     {

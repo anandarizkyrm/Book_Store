@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Category;
+use App\Models\Publisher;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+
+class PublisherController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,10 +13,9 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-
     {
-        $category = Category::get();
-        return view('admin.category.index')->with("category", $category);
+        $publisher = Publisher::all();
+        return view('admin.publisher.index')->with('publisher', $publisher);
     }
 
     /**

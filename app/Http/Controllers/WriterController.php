@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Category;
+use App\Models\Writer;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class WriterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,10 +12,9 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-
     {
-        $category = Category::get();
-        return view('admin.category.index')->with("category", $category);
+        $writer = Writer::all();
+        return view('admin.writer.index')->with('writer', $writer);
     }
 
     /**

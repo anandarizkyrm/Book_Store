@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,10 +12,8 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-
     {
-        $category = Category::get();
-        return view('admin.category.index')->with("category", $category);
+        //
     }
 
     /**
@@ -83,5 +80,31 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function incomeChart(Request $request){
+        $year=\Carbon\Carbon::now()->year;
+        // dd($year);
+        $items=Order::with(['cart'])->whereYear('created_at',$year)->where('status','delivered')->get()
+            ->groupBy(function($d){
+                return \Carbon\Carbon::parse($d->created_at)->format('m');
+            });
+            // dd($items);
+        $result=[];
+        foreach($items as $month=>$item_collections){
+            foreach($item_collections as $item){
+                $amount=$item->cart->sum('amount');
+                // dd($amount);
+                $m=intval($month);
+                // return $m;
+                isset($result[$m]) ? $result[$m] += $amount :$result[$m]=$amount;
+            }
+        }
+        $data=[];
+        for($i=1; $i <=12; $i++){
+            $monthName=date('F', mktime(0,0,0,$i,1));
+            $data[$monthName] = (!empty($result[$i]))? number_format((float)($result[$i]), 2, '.', '') : 0.0;
+        }
+        return $data;
     }
 }
