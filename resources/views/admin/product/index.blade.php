@@ -76,9 +76,9 @@
                               $image=explode(',',$product->image);
                               // dd($image);
                             @endphp
-                            <img src="{{$image[0]}}" class="img-fluid zoom" style="max-width:80px" alt="{{$product->image}}">
+                            <img src="{{asset('/storage/'.$product->image)}}" class="img-fluid zoom" style="max-width:80px" alt="{{'Gambar'}}">
                         @else
-                            <img src="{{asset('backend/img/thumbnail-default.jpg')}}" class="img-fluid" style="max-width:80px" alt="avatar.png">
+                            <img src="{{asset('/img/thumbnail-default.jpg')}}" class="img-fluid" style="max-width:80px" alt="avatar.png">
                         @endif
                     </td>
                     <td>
@@ -97,7 +97,7 @@
                     <form method="POST" action="{{route('product.destroy',[$product->id])}}">
                       @csrf
                       @method('delete')
-                          <button c class="btn btn-danger btn-sm btn-round btn-just-icon" data-id={{$product->id}} data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>
+                          <button class="btn btn-danger btn-sm btn-round btn-just-icon dltBtn" data-id={{$product->id}} data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>
                      </form>
                     </td>
                 </tr>
@@ -131,7 +131,7 @@
   </style>
 @endpush
 
-@push('scripts')
+@push('js')
 
   <!-- Page level plugins -->
   <script src="{{asset('backend/vendor/datatables/jquery.dataTables.min.js')}}"></script>

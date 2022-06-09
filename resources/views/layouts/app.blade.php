@@ -17,6 +17,25 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     {{-- <link href="{{ asset('material') }}/demo/demo.css" rel="stylesheet" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
+    <!-- include libraries(jQuery, bootstrap) -->
+
+
+
+    <!-- include summernote css/js -->
+
+    <link rel="stylesheet" href="{{asset('backend/summernote/summernote.min.css')}}">
+    <link href="summernote-bs5.css" rel="stylesheet">
+
+    <!-- rtix editor -->
+    <link rel="stylesheet" type="text/css" href="/css/trix.css">
+    <script type="text/javascript" src="/js/trix.js"></script>
+    
+    <style>
+        trix-toolbar [data-trix-button-group="file-tools"]{
+            display: none;
+        }
+     </style>
+
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()
@@ -31,6 +50,9 @@
 
    
         <!--   Core JS Files   -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+            <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
         <script src="{{ asset('material') }}/js/core/jquery.min.js"></script>
         <script src="{{ asset('material') }}/js/core/popper.min.js"></script>
         <script src="{{ asset('material') }}/js/core/bootstrap-material-design.min.js"></script>
