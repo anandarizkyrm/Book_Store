@@ -8,7 +8,7 @@ use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\WriterController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\ClientController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,9 +20,21 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+
+//
+
+Route::get('/', [ClientController::class, 'home'])->name('home');
+// Route::get('/about-us','ClientController@about')->name('about');
+// Route::get('/contact-us','ClientController@contact')->name('contact');
+// Route::get('/product-details/{id}','ClientController@productDetails')->name('product.productDetails');
+// Route::get('/product-list/{id}','ClientController@productList')->name('product.productList');
+// Route::post('/product/search', 'ClientController@search')->name('product.search');
+// Route::get('/category/{slug}','ClientController@category')->name('category.category');
+// Route::get('/publisher/{slug}','ClientController@publisher')->name('publisher.publisher');
+// Route::get('/writer/{slug}','ClientController@writer')->name('writer.writer');
+
+
+
 
 Auth::routes();
 
@@ -56,6 +68,10 @@ Route::group(['prefix'=>'/admin', 'middleware' => 'auth'], function () {
 	Route::resource('user', UserController::class)->name('*','user');
 
 	Route::get('/income',[OrderController::class, 'incomeChart'])->name('book.order.income');
+	
+	Route::get('/finance' , function(){
+		return view('admin.finance.index');
+	})->name('finance');
 
 	Route::get('notifications', function () {
 		return view('pages.notifications');

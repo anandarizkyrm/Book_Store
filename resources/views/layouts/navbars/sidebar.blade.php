@@ -120,8 +120,8 @@
           <p>{{ __('Pengguna') }}</p>
         </a>
       </li>
-      <li class="nav-item{{ $activePage == 'money' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('icons') }}">
+      <li class="nav-item{{ Request::is('admin/finance') ? ' active' : ''}}">
+        <a class="nav-link" href="{{ route('finance') }}">
           <i class="material-icons">money</i>
           <p>{{ __('Keuangan') }}</p>
         </a>

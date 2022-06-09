@@ -1,10 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Order;
-use Illuminate\Http\Request;
 
-class OrderController extends Controller
+use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Book;
+use App\Models\Publisher;
+use App\Models\Writer;
+
+
+class ClientController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +18,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        return redirect()->route($request->user()->role);
     }
 
     /**
@@ -21,6 +26,18 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function home(){
+        $products=Book::where('status','active')->orderBy('id','DESC')->limit(8)->get();
+        $category=Category::where('status','active')->where('is_parent',1)->orderBy('title','ASC')->get();
+        $writers = Writer::get();
+        // return $category;
+        return view('client.home')
+                ->with('writer_lists',$writers)
+                ->with('product_lists',$products)
+                ->with('category_lists',$category);
+     }
+
     public function create()
     {
         //
@@ -81,32 +98,4 @@ class OrderController extends Controller
     {
         //
     }
-
-    public function incomeChart(Request $request){
-        $year=\Carbon\Carbon::now()->year;
-        // dd($year);
-        $items=Order::with(['cart'])->whereYear('created_at',$year)->where('status','delivered')->get()
-            ->groupBy(function($d){
-                return \Carbon\Carbon::parse($d->created_at)->format('m');
-            });
-            // dd($items);
-        $result=[];
-        foreach($items as $month=>$item_collections){
-            foreach($item_collections as $item){
-                $amount=$item->cart->sum('amount');
-                // dd($amount);
-                $m=intval($month);
-                // return $m;
-                isset($result[$m]) ? $result[$m] += $amount :$result[$m]=$amount;
-            }
-        }
-        $data=[];
-        for($i=1; $i <=12; $i++){
-            $monthName=date('F', mktime(0,0,0,$i,1));
-            $data[$monthName] = (!empty($result[$i]))? number_format((float)($result[$i]), 2, '.', '') : 0.0;
-        }
-        return $data;
-    }
-
-
 }

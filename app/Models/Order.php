@@ -37,4 +37,35 @@ class Order extends Model
         return 0;
     }
 
+    public static function totalIncome(){
+        $data = Order::where('payment_status', 'paid')->sum('total_amount');
+        if($data){
+            return $data;
+        }
+        return 0;
+    }
+
+    public static function totalIncomeToday(){
+        $data = Order::whereDate('created_at', date('Y-m-d'))->where('payment_status', 'paid')->sum('total_amount');
+        if($data){
+            return $data;
+        }
+        return 0;
+    }
+    public static function totalIncomeThisMonth(){
+        $data = Order::whereMonth('created_at', date('m'))->where('payment_status', 'paid')->sum('total_amount');
+        if($data){
+            return $data;
+        }
+        return 0;
+    }
+
+    public static function totalIncomeThisYear(){
+        $data = Order::whereYear('created_at', date('Y'))->where('payment_status', 'paid')->sum('total_amount');
+        if($data){
+            return $data;
+        }
+        return 0;
+    }
+
 }
