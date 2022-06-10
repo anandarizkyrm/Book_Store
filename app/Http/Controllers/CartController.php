@@ -1,8 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Book;
+use App\Models\Cart;
 use Illuminate\Http\Request;
+use Auth;
+
+use Illuminate\Support\Str;
+use Helper;
+
 
 class CartController extends Controller
 {
@@ -81,4 +87,46 @@ class CartController extends Controller
     {
         //
     }
+
+    public function addToCart(Request $request){
+        // dd($request->all());
+        if (empty($request->slug)) {
+            request()->session()->flash('error','Invalid Products');
+            return back();
+        }        
+        $product = Book::where('slug', $request->slug)->first();
+        // return $product;
+        if (empty($product)) {
+            request()->session()->flash('error','Invalid Products');
+            return back();
+        }
+
+        $already_cart = Cart::where('user_id', auth()->user()->id)->where('order_id',null)->where('book_id', $product->id)->first();
+        // return $already_cart;
+        
+        if($already_cart) {
+            // dd($already_cart);
+            $already_cart->quantity = $already_cart->quantity + 1;
+            $already_cart->amount = $product->price+ $already_cart->amount;
+            // return $already_cart->quantity;
+            if ($already_cart->book->stock < $already_cart->quantity || $already_cart->book->stock <= 0) return back()->with('error','Stock not sufficient!.');
+            $already_cart->save();
+            
+        }else{
+            
+            $cart = new Cart;
+        
+            $cart->user_id = auth()->user()->id;
+            $cart->book_id = $product->id;
+            $cart->price = ($product->price-($product->price*$product->discount)/100);
+            $cart->quantity = 1;
+            $cart->amount=$cart->price*$cart->quantity;
+         
+            if ($cart->book->stock < $cart->quantity || $cart->book->stock <= 0) return back()->with('error','Stock not sufficient!.');
+            $cart->save();
+            // $wishlist=Wishlist::where('user_id',auth()->user()->id)->where('cart_id',null)->update(['cart_id'=>$cart->id]);
+        }
+        request()->session()->flash('success','Product successfully added to cart');
+        return back();       
+    }  
 }

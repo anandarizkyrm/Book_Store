@@ -15,9 +15,9 @@
             </div>
         </div> --}}
 	<!-- End Preloader -->
-	{{--
+
 	@include('client.layout.notification')
-	<!-- Header --> --}}
+	<!-- Header --> 
 	@include('client.layout.header')
 	<!--/ End Header -->
 	 @yield('main-content')

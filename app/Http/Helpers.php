@@ -87,19 +87,19 @@ class Helper{
             if($user_id=="") $user_id=auth()->user()->id;
             return Cart::where('user_id',$user_id)->where('order_id',null)->sum('quantity');
         }
-        else{
+        else{   
             return 0;
         }
     }
     // relationship cart with product
     public function product(){
-        return $this->hasOne('App\Models\Product','id','product_id');
+        return $this->hasOne('App\Models\Book','id','product_id');
     }
 
     public static function getAllProductFromCart($user_id=''){
         if(Auth::check()){
             if($user_id=="") $user_id=auth()->user()->id;
-            return Cart::with('product')->where('user_id',$user_id)->where('order_id',null)->get();
+            return Cart::with('book')->where('user_id',$user_id)->where('order_id',null)->get();
         }
         else{
             return 0;

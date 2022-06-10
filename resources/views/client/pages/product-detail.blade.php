@@ -66,7 +66,7 @@
 										<div class="product-des">
 											<!-- Description -->
 											<div class="short">
-												<h4>{{$product_detail->title}}</h4>
+												<h4>{{$product_detail->name}}</h4>
 												<div class="rating-main">
 													<ul class="rating">
 														@php
