@@ -58,6 +58,7 @@ class ProductController extends Controller
             'writer_id'=>'required|exists:writer,id',
             'status'=>'required|in:active,inactive',
             'price'=>'required|numeric',
+            'discount' => 'required|numeric'
         ]);
 
 
@@ -142,6 +143,7 @@ class ProductController extends Controller
             'writer_id'=>'required|exists:writer,id',
             'status'=>'required|in:active,inactive',
             'price'=>'required|numeric',
+            'discount' => 'required|numeric'
         ]);
 
 

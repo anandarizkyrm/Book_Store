@@ -26,15 +26,34 @@ use App\Http\Controllers\ClientController;
 Route::get('/', [ClientController::class, 'home'])->name('home');
 // Route::get('/about-us','ClientController@about')->name('about');
 // Route::get('/contact-us','ClientController@contact')->name('contact');
-// Route::get('/product-details/{id}','ClientController@productDetails')->name('product.productDetails');
-// Route::get('/product-list/{id}','ClientController@productList')->name('product.productList');
+Route::get('/product-details/{id}','ClientController@productDetails')->name('product.productDetails');
+Route::get('/product-list/{id}','ClientController@productList')->name('product.productList');
+Route::get('product-detail/{slug}',[ClientController::class , 'productDetail'])->name('product-detail');
 // Route::post('/product/search', 'ClientController@search')->name('product.search');
 // Route::get('/category/{slug}','ClientController@category')->name('category.category');
 // Route::get('/publisher/{slug}','ClientController@publisher')->name('publisher.publisher');
 // Route::get('/writer/{slug}','ClientController@writer')->name('writer.writer');
+Route::get('/product-grids','ClientController@productGrids')->name('product-grids');
+Route::get('/product-lists','ClientController@productLists')->name('product-lists');
+
+
+//cart 
+Route::get('/add-to-cart/{slug}','CartController@addToCart')->name('add-to-cart')->middleware('user');
+Route::post('/add-to-cart','CartController@singleAddToCart')->name('single-add-to-cart')->middleware('user');
+Route::get('cart-delete/{id}','CartController@cartDelete')->name('cart-delete');
+Route::post('cart-update','CartController@cartUpdate')->name('cart.update');
+
+Route::get('/cart',function(){
+    return view("client.cart.index");
+})->name('cart');
 
 
 
+
+//about us 
+Route::get('/about-us',function(){
+	return view("client.about_us");
+})->name('about-us');
 
 Auth::routes();
 
@@ -44,21 +63,7 @@ Auth::routes();
 Route::get('/admin', 'App\Http\Controllers\AdminController@index')->name('admin')->middleware('auth');
 
 Route::group(['prefix'=>'/admin', 'middleware' => 'auth'], function () {
-	Route::get('table-list', function () {
-		return view('pages.table_list');
-	})->name('table');
 
-	Route::get('typography', function () {
-		return view('pages.typography');
-	})->name('typography');
-
-	Route::get('icons', function () {
-		return view('pages.icons');
-	})->name('icons');
-
-	Route::get('map', function () {
-		return view('pages.map');
-	})->name('map');
 
 	Route::resource('product', ProductController::class)->name('*', 'data');
 	Route::resource('category', CategoryController::class)->name('*','category');

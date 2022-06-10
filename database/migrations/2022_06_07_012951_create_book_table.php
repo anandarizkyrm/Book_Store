@@ -23,6 +23,7 @@ class CreateBookTable extends Migration
             $table->text('image');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->float('price');
+            $table->float('discount');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('writer_id')->nullable();
             $table->unsignedBigInteger('publisher_id')->nullable();

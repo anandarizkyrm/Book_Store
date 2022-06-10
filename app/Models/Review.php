@@ -10,6 +10,7 @@ class Review extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'rating','user_id', 'book_id', 'status'];
+    public $table = "review";
     
     public function userInfo (){
         return $this->hasOne(User::class,'id','user_id');

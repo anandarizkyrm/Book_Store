@@ -29,7 +29,7 @@ class ClientController extends Controller
 
      public function home(){
         $products=Book::where('status','active')->orderBy('id','DESC')->limit(8)->get();
-        $category=Category::where('status','active')->where('is_parent',1)->orderBy('title','ASC')->get();
+        $category=Category::get();
         $writers = Writer::get();
         // return $category;
         return view('client.home')
@@ -98,4 +98,11 @@ class ClientController extends Controller
     {
         //
     }
+
+    public function productDetail($slug){
+        $product_detail= Book::getBookBySlug($slug);
+    
+        return view('client.pages.product-detail')->with('product_detail',$product_detail);
+    }
+
 }
