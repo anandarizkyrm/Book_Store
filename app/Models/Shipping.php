@@ -9,7 +9,7 @@ class Shipping extends Model
 {
     use HasFactory;
     protected $fillable = ['type', 'price'];
-
+    public $table = "shipping";
     public function order()
     {
         return $this->hasMany(Order::class);

@@ -17,12 +17,12 @@ class OrderTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('order_number')->unique();
+
+            $table->string('order_number')->unique();
             $table->float('sub_total');
             $table->float('total_amount');
             $table->integer('quantity');
-            $table->enum('payment_method',['cod', 'gateway']);
+            $table->enum('payment_method',['cod', 'paypal']);
             $table->enum('payment_status',['pending', 'paid', 'cancelled']);
             $table->enum("status", ['new', 'processing','delivered', 'cancelled']);
             $table->unsignedBigInteger('user_id')->nullable();

@@ -60,7 +60,12 @@ Route::get('/add-to-cart/{slug}',[CartController::class ,'addToCart'])->name('ad
 Route::post('/add-to-cart',[CartController::class, 'singleAddToCart'])->name('single-add-to-cart')->middleware('user');
 Route::get('cart-delete/{id}',[CartController::class, 'cartDelete'])->name('cart-delete');
 Route::post('cart-update',[CartController::class, 'cartUpdate'])->name('cart.update');
-Route::get('/checkout',[CartController::class, 'checkout'])->name('checkout')->middleware('user');
+Route::get('/checkout',function(){
+	return  view('client.pages.checkout');
+})->name('checkout')->middleware('user');
+
+Route::post('cart/order',[OrderController::class, 'store'])->name('cart.order');
+Route::get('order/pdf/{id}',[OrderController::class, 'pdf'])->name('order.pdf');
 
 Route::get('/cart',function(){
     return view("client.cart.index");
