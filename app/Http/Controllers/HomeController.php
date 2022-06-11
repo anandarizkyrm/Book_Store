@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Models\Order;
-use App\Models\ProductReview;
+use App\Models\Review;
 use App\Models\PostComment;
 use App\Rules\MatchOldPassword;
 use Hash;
@@ -30,7 +30,7 @@ class HomeController extends Controller
 
 
     public function index(){
-        return view('user.index');
+        return view('user-dashboard.layouts.order.index');
     }
 
     public function profile(){
@@ -86,19 +86,19 @@ class HomeController extends Controller
     {
         $order=Order::find($id);
         // return $order;
-        return view('user.order.show')->with('order',$order);
+        return view('user-dashboard.layouts.order.show')->with('order',$order);
     }
     // Product Review
     public function productReviewIndex(){
-        $reviews=ProductReview::getAllUserReview();
-        return view('user.review.index')->with('reviews',$reviews);
+        $reviews=Review::getAllUserReview();
+        return view('user-dashboard.layouts.review.index')->with('reviews',$reviews);
     }
 
     public function productReviewEdit($id)
     {
-        $review=ProductReview::find($id);
+        $review=Review::find($id);
         // return $review;
-        return view('user.review.edit')->with('review',$review);
+        return view('user-dashboard.layouts.review.edit')->with('review',$review);
     }
 
     /**
@@ -110,7 +110,7 @@ class HomeController extends Controller
      */
     public function productReviewUpdate(Request $request, $id)
     {
-        $review=ProductReview::find($id);
+        $review=Review::find($id);
         if($review){
             $data=$request->all();
             $status=$review->fill($data)->update();
@@ -136,7 +136,7 @@ class HomeController extends Controller
      */
     public function productReviewDelete($id)
     {
-        $review=ProductReview::find($id);
+        $review=Review::find($id);
         $status=$review->delete();
         if($status){
             request()->session()->flash('success','Successfully deleted review');

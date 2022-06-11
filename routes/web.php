@@ -66,7 +66,7 @@ Route::get('/checkout',function(){
 
 Route::post('cart/order',[OrderController::class, 'store'])->name('cart.order');
 Route::get('order/pdf/{id}',[OrderController::class, 'pdf'])->name('order.pdf');
-
+// Route::get('/income',[OrderController::class, 'incomeChart'])->name('product.order.income');
 Route::get('/cart',function(){
     return view("client.cart.index");
 })->name('cart');
@@ -80,11 +80,11 @@ Route::get('/about-us',function(){
 })->name('about-us');
 
 Auth::routes();
-
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
+
 Auth::routes();
 
-Route::get('/admin', 'App\Http\Controllers\AdminController@index')->name('admin')->middleware('auth');
+// Route::get('/admin', 'App\Http\Controllers\AdminController@index')->name('admin')->middleware('auth');
 
 Route::group(['prefix'=>'/admin', 'middleware' => 'auth'], function () {
 

@@ -20,6 +20,8 @@ class OrderTable extends Migration
 
             $table->string('order_number')->unique();
             $table->float('sub_total');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->float('total_amount');
             $table->integer('quantity');
             $table->enum('payment_method',['cod', 'paypal']);
