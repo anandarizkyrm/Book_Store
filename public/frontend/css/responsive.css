@@ -6,6 +6,15 @@ Description: Eshop - eCommerce HTML5 Template.
 Version:1.0
 ========================================*/
 /* Tablet Screen */
+
+
+
+:root {
+    
+    --primary: #28a745;
+    --secondary: #f8f9fa;
+
+}
 @media only screen and (min-width: 768px) and (max-width: 991px) {
 .section{
 	padding:50px 0px;
@@ -403,7 +412,7 @@ Version:1.0
 	display:none;
 }
 .slicknav_nav li:hover a{
-	color:#F7941D;
+	color:var(--primary);
 	background:transparent;
 }
 .slicknav_nav li:hover{
@@ -417,7 +426,7 @@ Version:1.0
 	background:transparent;
 }
 .slicknav_nav li .dropdown li a:hover{
-	color:#F7941D;
+	color:var(--primary);
 	background:transparent;
 }
 .slicknav_nav li .slicknav_item{
@@ -433,12 +442,12 @@ Version:1.0
 	padding-bottom:0px;
 }
 .slicknav_menu .slicknav_icon-bar {
-	background-color: #F7941D;
+	background-color: var(--primary);
 	box-shadow: none;
 	text-shadow: none;
 }
 .slicknav_nav .slicknav_arrow{
-	color:#F7941D;
+	color:var(--primary);
 }
 .slicknav_menu .slicknav_icon-bar {
 	display: block;
@@ -884,7 +893,7 @@ Version:1.0
 	width: 50%;
 	height: 100%;
 	border-bottom: 1px solid #e6ebee;
-	background: #F7941D;
+	background: var(--primary);
 	color: #fff;
 	border: none;
 }
@@ -1116,7 +1125,7 @@ Version:1.0
 	display:none;
 }
 .slicknav_nav li:hover a{
-	color:#F7941D;
+	color:var(--primary);
 	background:transparent;
 }
 .slicknav_nav li:hover{
@@ -1130,7 +1139,7 @@ Version:1.0
 	background:transparent;
 }
 .slicknav_nav li .dropdown li a:hover{
-	color:#F7941D;
+	color:var(--primary);
 	background:transparent;
 }
 .slicknav_nav li .slicknav_item{
@@ -1146,12 +1155,12 @@ Version:1.0
 	padding-bottom:0px;
 }
 .slicknav_menu .slicknav_icon-bar {
-	background-color: #F7941D;
+	background-color: var(--primary);
 	box-shadow: none;
 	text-shadow: none;
 }
 .slicknav_nav .slicknav_arrow{
-	color:#F7941D;
+	color:var(--primary);
 }
 .slicknav_menu .slicknav_icon-bar {
 	display: block;

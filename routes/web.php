@@ -13,6 +13,7 @@ use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,22 +27,26 @@ use App\Http\Controllers\ReviewController;
 
 Route::get('user/login',[ClientController::class, 'login'])->name('login.form');
 Route::post('user/login',[ClientController::class, 'loginSubmit'])->name('login.submit');
+Route::get('user/logout', [ClientController::class, 'logout'])->name('logout.user');
+
+// Route::get('admin/login',[AdminController::class, 'login'])->name('login');
+// Route::get('admin/logout',[AdminController::class, 'logout'])->name('logout');
 
 Route::get('login/{provider}/', [RedirectController::class, 'redirect'])->name('login.redirect');
 Route::get('login/{provider}/callback/', [RedirectController::class, 'callback'])->name('login.callback');
 
-Route::post('password-reset', [FrontendController::class , 'showResetForm'])->name('password.reset'); 
+Route::post('password-reset', [ClientController::class , 'showResetForm'])->name('password.reset'); 
 Route::get('user/logout',[ClientController::class, 'logout'])->name('user.logout');
 
 Route::get('user/register',[ClientController::class, 'register'])->name('register.form');
 Route::post('user/register',[ClientController::class, 'registerSubmit'])->name('register.submit');
 //
 
+
 // Product Review
 Route::resource('/review',ReviewController::class);
 Route::post('product/{slug}/review',[ReviewController::class, 'store'])->name('review.store');
-
-Route::get('/', [ClientController::class, 'home'])->name('home');
+	
 Route::get('product-detail/{slug}',[ClientController::class , 'productDetail'])->name('product-detail');
 // Route::get('/about-us','ClientController@about')->name('about');
 // Route::get('/contact-us','ClientController@contact')->name('contact');
@@ -53,7 +58,9 @@ Route::get('/product-list/{id}',[ClientController::class, 'productList'])->name(
 // Route::get('/writer/{slug}',[ClientController::class, 'writer')->name('writer.writer');
 Route::get('/product-grids',[ClientController::class, 'productGrids'])->name('product-grids');
 Route::get('/product-lists',[ClientController::class, 'productLists'])->name('product-lists');
-
+Route::match(['get','post'],'/filter',[ClientController::class , 'productFilter'])->name('shop.filter');
+Route::get('/product-cat/{slug}',[ClientController::class, 'productCat'])->name('product-cat');
+Route::post('/product/search',[ClientController::class, 'productSearch'])->name('product.search');
 
 //cart 
 Route::get('/add-to-cart/{slug}',[CartController::class ,'addToCart'])->name('add-to-cart')->middleware('user');
@@ -73,20 +80,19 @@ Route::get('/cart',function(){
 
 
 
-
+Route::get('/',[ClientController::class, 'home'])->name('home');
 //about us 
 Route::get('/about-us',function(){
 	return view("client.about_us");
 })->name('about-us');
 
 Auth::routes();
-Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
-
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Auth::routes();
 
 // Route::get('/admin', 'App\Http\Controllers\AdminController@index')->name('admin')->middleware('auth');
 
-Route::group(['prefix'=>'/admin', 'middleware' => 'auth'], function () {
+Route::group(['prefix'=>'/admin', 'middleware' => ['admin']], function () {
 
 
 	Route::resource('product', ProductController::class)->name('*', 'data');

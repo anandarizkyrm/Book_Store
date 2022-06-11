@@ -27,15 +27,10 @@
 				<div class="row">
 					<div class="col-lg-6 col-12">
 						<div class="about-content">
-							@php
-								$settings=DB::table('settings')->get();
-							@endphp
-							<h3>Welcome To <span>Eshop</span></h3>
-							<p>@foreach($settings as $data) {{$data->description}} @endforeach</p>
-							<div class="button">
-								<a href="{{route('blog')}}" class="btn">Our Blog</a>
-								<a href="{{route('contact')}}" class="btn primary">Contact Us</a>
-							</div>
+						
+							<h3>Selamat Datang di <span>Ilkiya Store</span></h3>
+							<p>lorem ipsum sit dolor mamet dan ikya kdnaso dsab jndkasn dkdln asalncs ancklasn kcnsalk ncsklan lcasnlcnaskl </p>
+						
 						</div>
 					</div>
 					<div class="col-lg-6 col-12">
@@ -43,7 +38,7 @@
 							{{-- <div class="button">
 								<a href="https://www.youtube.com/watch?v=nh2aYrGMrIE" class="video video-popup mfp-iframe"><i class="fa fa-play"></i></a>
 							</div> --}}
-							<img src="@foreach($settings as $data) {{$data->photo}} @endforeach" alt="@foreach($settings as $data) {{$data->photo}} @endforeach">
+							<img  src="{{asset('/storage/images/toko.jpg')}}" alt="toko.jpg">
 						</div>
 					</div>
 				</div>
@@ -97,5 +92,5 @@
 	</section>
 	<!-- End Shop Services Area -->
 
-	@include('client.layout.newsletter')
+
 @endsection

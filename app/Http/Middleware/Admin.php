@@ -16,7 +16,7 @@ class Admin
     public function handle($request, Closure $next)
     {
         if($request->user()->role=='admin'){
-            return $next($request);
+            return redirect()->route('login');
         }
         else{
             request()->session()->flash('error','You do not have any permission to access this page');

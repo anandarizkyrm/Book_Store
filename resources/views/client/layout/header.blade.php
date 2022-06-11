@@ -44,8 +44,7 @@
                 <div class="col-lg-2 col-md-2 col-12">
                     <!-- Logo -->
                     <div class="logo">
-                
-                        <a href="{{route('home')}}"><img src="gak perlu b" alt="logo"></a>
+                        <h3>Ilkiya Store</h3>
                     </div>
                     <!--/ End Logo -->
                     <!-- Search Form -->
@@ -66,15 +65,7 @@
                 <div class="col-lg-8 col-md-7 col-12">
                     <div class="search-bar-top">
                         <div class="search-bar">
-                            <select>
-                                <option >All Category</option>
-                                {{-- @foreach(Helper::getAllCategory() as $cat) --}}
-                                    <option>dsdasd</option>
-                                    <option>dsdasd</option>
-                                    <option>dsdasd</option>
-                                    <option>dsdasd</option>
-                                {{-- @endforeach --}}
-                            </select>
+                           
                             <form method="POST" >
                                 @csrf
                                 <input name="search" placeholder="Search Products Here....." type="search">
@@ -140,7 +131,7 @@
                                         <ul class="nav main-menu menu navbar-nav">
                                             <li class="{{Request::path()=='home' ? 'active' : ''}}"><a href="{{route('home')}}">Home</a></li>
                                             <li class="{{Request::path()=='about-us' ? 'active' : ''}}"><a href="{{route('about-us')}}">About Us</a></li>
-                                            <li class="@if(Request::path()=='product-grids'||Request::path()=='product-lists')  active  @endif"><a href="{{route('product-grids')}}">Products</a><span class="new">New</span></li>												   
+                                            <li class="@if(Request::path()=='product-grids'||Request::path()=='product-lists')  active  @endif"><a href="{{route('product-grids')}}">Products</a></li>												   
                                          
                                         </ul>
                                     </div>
