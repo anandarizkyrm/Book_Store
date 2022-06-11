@@ -4,7 +4,7 @@
 <div class="container" style="height: auto;">
   <div class="row align-items-center">
     <div class="col-md-9 ml-auto mr-auto mb-3 text-center">
-      <h3>{{ __('Selamat datang di website ilkiya book store, Silahkan log in terlebih dahulu') }} </h3>
+      <h3>{{ __('Selamat datang di Admin ilkiya book store, Silahkan log in ') }} </h3>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
       <form class="form" method="POST" action="{{ route('login') }}">
@@ -16,8 +16,8 @@
           
           </div>
           <div class="card-body">
-            <p class="card-description text-center">{{ __('Or Sign in with ') }} <strong>admin@material.com</strong> {{ __(' and the password ') }}<strong>secret</strong> </p>
-            <div class="bmd-form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
+            {{-- <p class="card-description text-center">{{ __('Or Sign in with ') }} <strong>Choose Your Role</strong> {{ __(' and the password ') }}<strong>secret</strong> </p> --}}
+            <div style="margin-top : 40px;" class="bmd-form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
@@ -47,6 +47,27 @@
                 </div>
               @endif
             </div>
+            <div class="bmd-form-group{{ $errors->has('role') ? ' has-danger' : '' }} mt-3">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">key</i>
+                  </span>
+                </div>
+                <select style=" padding : 5px; border-radius : 5px; color : gray; border : none;" class="select" name="role" id="role">
+                  <option value="">-- Pilih Role --</option>
+                  <option value="admin">Admin</option>
+                  <option value="su">Super Admin</option>
+                </select>
+             
+             
+              @if ($errors->has('role'))
+                <div id="role-error" class="error text-danger pl-3" for="role" style="display: block;">
+                  <strong>{{ $errors->first('role') }}</strong>
+                </div>
+              @endif
+            </div>
+
             <div class="form-check mr-auto ml-3 mt-3">
               <label class="form-check-label">
                 <input class="form-check-input" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember me') }}

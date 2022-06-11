@@ -38,7 +38,8 @@ class LoginController extends Controller
      */
 
     public function credentials(Request $request){
-        return ['email'=>$request->email,'password'=>$request->password,'role'=>'admin'];
+
+        return ['email'=>$request->email,'password'=>$request->password, 'role'=>$request->role];
     }
     public function __construct()
     {

@@ -7,7 +7,8 @@
 
   <div class="logo">
     <a href="https://creative-tim.com/" class="simple-text logo-normal">
-    ADMIN ILKIYA 
+    {{-- ADMIN ILKIYA  --}}
+    {{Auth::user()->role}}
     </a>
   </div>
   <div class="sidebar-wrapper">
@@ -114,18 +115,26 @@
           </ul>
         </div>
       </li>
+
+      @if(Auth::user()->role == 'su')
+
       <li class="nav-item{{ $activePage == 'user' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('user.index') }}">
           <i class="material-icons">bubble_chart</i>
           <p>{{ __('Pengguna') }}</p>
         </a>
       </li>
+      @endif
+      
+
+      @if(Auth::user()->role == 'su')
       <li class="nav-item{{ Request::is('admin/finance') ? ' active' : ''}}">
         <a class="nav-link" href="{{ route('finance') }}">
           <i class="material-icons">money</i>
           <p>{{ __('Keuangan') }}</p>
         </a>
       </li>
+      @endif
     
      
       <li class="nav-item{{ $activePage == 'notifications' ? ' active' : '' }}">

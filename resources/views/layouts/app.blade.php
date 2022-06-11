@@ -99,5 +99,6 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         @stack('js')
+        @stack('css')
     </body>
 </html>

@@ -3,24 +3,25 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 
-class Admin
+class SuperUser
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle($request, Closure $next)
     {
-        if($request->user()->role=='admin'){
+        if($request->user()->role=='su'){
             return $next($request);
         }
         else{
             request()->session()->flash('error','You do not have any permission to access this page');
-            return redirect()->route("login");
+            return redirect()->route('admin');
         }
     }
 }

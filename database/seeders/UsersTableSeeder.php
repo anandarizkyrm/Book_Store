@@ -33,6 +33,15 @@ class UsersTableSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'created_at' => now(),
                 'updated_at' => now()
+            ],
+            [
+                'name' => 'Super User',
+                'email' => 'superuser@gmail.com',
+                'role' => "su",
+                'email_verified_at' => now(),
+                'password' => Hash::make('123456'),
+                'created_at' => now(),
+                'updated_at' => now()
             ]
             ];
 
