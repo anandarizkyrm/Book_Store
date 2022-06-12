@@ -14,6 +14,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PaypalController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,7 +79,9 @@ Route::get('/cart',function(){
     return view("client.cart.index");
 })->name('cart');
 
-
+Route::get('payment', [PayPalController::class, 'payment'])->name('payment');
+Route::get('cancel', [PayPalController::class, 'cancel'])->name('payment.cancel');
+Route::get('payment/success', [PayPalController::class, 'success'])->name('payment.success');
 
 Route::get('/',[ClientController::class, 'home'])->name('home');
 //about us 
@@ -104,6 +107,8 @@ Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su-admin']], functio
 
 	Route::get('/income',[OrderController::class, 'incomeChart'])->name('book.order.income');
 	
+    // Order
+    Route::resource('/order',OrderController::class);
 
 	Route::get('notifications', function () {
 		return view('pages.notifications');
@@ -116,6 +121,10 @@ Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su-admin']], functio
 	Route::get('upgrade', function () {
 		return view('pages.upgrade');
 	})->name('upgrade');
+
+	Route::get('/notification/{id}','NotificationController@show')->name('admin.notification');
+    Route::get('/notifications','NotificationController@index')->name('all.notification');
+    Route::delete('/notification/{id}','NotificationController@delete')->name('notification.delete');
 });
 
 Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su']], function () {

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Notifications\StatusNotification;
 use App\Models\Order;
 use App\Models\Cart;
 use App\Models\Shipping;
@@ -10,7 +11,6 @@ use PDF;
 use Notification;
 use Helper;
 use Illuminate\Support\Str;
-use App\Notifications\StatusNotification;
 
 use Illuminate\Http\Request;
 
@@ -23,7 +23,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders=Order::orderBy('id','DESC')->paginate(10);
+        return view('admin.order.index')->with('orders',$orders);
     }
 
     /**

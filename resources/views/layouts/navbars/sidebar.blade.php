@@ -135,6 +135,13 @@
         </a>
       </li>
       @endif
+
+      <li class="nav-item{{ Request::is('admin/order') ? ' active' : ''}}">
+        <a class="nav-link" href="{{ route('order.index') }}">
+          <i class="material-icons">money</i>
+          <p>{{ __('Order') }}</p>
+        </a>
+      </li>
     
      
       <li class="nav-item{{ $activePage == 'notifications' ? ' active' : '' }}">

@@ -15,6 +15,7 @@ class User
      */
     public function handle($request, Closure $next)
     {
+        
         if(empty(session('user'))){
             return redirect()->route('login.form');
         }
