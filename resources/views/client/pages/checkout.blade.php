@@ -161,7 +161,7 @@
                                 <div class="single-widget get-button">
                                     <div class="content">
                                         <div class="button">
-                                            <button type="submit" class="btn">proceed to checkout</button>
+                                            <button id="pay-button" class="btn">proceed to checkout</button>
                                         </div>
                                     </div>
                                 </div>
@@ -240,6 +240,16 @@
             </div>
         </div>
     </section>
+
+<script type="text/javascript">
+    // For example trigger on button clicked, or any time you need
+    var payButton = document.getElementById('pay-button');
+    payButton.addEventListener('click', function () {
+      // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
+      window.snap.pay({{$snap_token}});
+      // customer will be redirected after completing payment pop-up
+    });
+  </script>
     <!-- End Shop Newsletter -->
 @endsection
 @push('styles')
@@ -285,13 +295,17 @@
 		}
 	</style>
 @endpush
-@push('scripts')
+@push('js')
 	<script src="{{asset('frontend/js/nice-select/js/jquery.nice-select.min.js')}}"></script>
 	<script src="{{ asset('frontend/js/select2/js/select2.min.js') }}"></script>
+    <script type="text/javascript"
+    src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="SB-Mid-client-lWw0_nTlQG_dzbZ0"></script>
 	<script>
 		$(document).ready(function() { $("select.select2").select2(); });
   		$('select.nice-select').niceSelect();
 	</script>
+
 	<script>
 		function showMe(box){
 			var checkbox=document.getElementById('shipping').style.display;

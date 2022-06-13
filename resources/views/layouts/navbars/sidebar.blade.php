@@ -144,12 +144,12 @@
       </li>
     
      
-      <li class="nav-item{{ $activePage == 'notifications' ? ' active' : '' }}">
+      {{-- <li class="nav-item{{ $activePage == 'notifications' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('notifications') }}">
           <i class="material-icons">book</i>
           <p>{{ __('Laporan') }}</p>
         </a>
-      </li>
+      </li> --}}
    
     </ul> 
   </div>

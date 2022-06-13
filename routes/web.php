@@ -69,7 +69,30 @@ Route::post('/add-to-cart',[CartController::class, 'singleAddToCart'])->name('si
 Route::get('cart-delete/{id}',[CartController::class, 'cartDelete'])->name('cart-delete');
 Route::post('cart-update',[CartController::class, 'cartUpdate'])->name('cart.update');
 Route::get('/checkout',function(){
-	return  view('client.pages.checkout');
+    \Midtrans\Config::$serverKey = 'SB-Mid-server-Ld1CfyKdVgAqZjGR4-TUonaN';
+    // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+    \Midtrans\Config::$isProduction = false;
+    // Set sanitization on (default)
+    \Midtrans\Config::$isSanitized = true;
+    // Set 3DS transaction for credit card to true
+    \Midtrans\Config::$is3ds = true;
+    
+    $params = array(
+        'transaction_details' => array(
+            'order_id' => rand(),
+            'gross_amount' => 10000,
+        ),
+        'customer_details' => array(
+            'first_name' => 'budi',
+            'last_name' => 'pratama',
+            'email' => 'budi.pra@example.com',
+            'phone' => '08111222333',
+        ),
+    );
+
+$snapToken = \Midtrans\Snap::getSnapToken($params);
+
+return view('client.pages.checkout')->with('snap_token',$snapToken);
 })->name('checkout')->middleware('user');
 
 Route::post('cart/order',[OrderController::class, 'store'])->name('cart.order');
@@ -110,18 +133,18 @@ Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su-admin']], functio
     // Order
     Route::resource('/order',OrderController::class);
 
-	Route::get('notifications', function () {
-		return view('pages.notifications');
-	})->name('notifications');
-
+    
 	Route::get('rtl-support', function () {
-		return view('pages.language');
+        return view('pages.language');
 	})->name('language');
-
+    
 	Route::get('upgrade', function () {
-		return view('pages.upgrade');
+        return view('pages.upgrade');
 	})->name('upgrade');
-
+    
+    Route::get('notifications', function () {
+        return view('pages.notifications');
+    })->name('notifications');
 	Route::get('/notification/{id}','NotificationController@show')->name('admin.notification');
     Route::get('/notifications','NotificationController@index')->name('all.notification');
     Route::delete('/notification/{id}','NotificationController@delete')->name('notification.delete');
