@@ -21,10 +21,10 @@ class OrderTable extends Migration
             $table->string('order_number')->unique();
             $table->float('sub_total');
             $table->string('first_name');
-            $table->string('last_name');
+            $table->string('last_name')->nullable();
             $table->float('total_amount');
             $table->integer('quantity');
-            $table->enum('payment_method',['cod', 'paypal']);
+            $table->string('transfer_evidence');
             $table->enum('payment_status',['pending', 'paid', 'cancelled']);
             $table->enum("status", ['new', 'processing','delivered', 'cancelled']);
             $table->unsignedBigInteger('user_id')->nullable();

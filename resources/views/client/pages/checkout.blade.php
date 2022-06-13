@@ -24,8 +24,9 @@
     <!-- Start Checkout -->
     <section class="shop checkout section">
         <div class="container">
-                <form class="form" method="POST" action="{{route('cart.order')}}">
-                    @csrf
+           
+                <form method="post" class="form" action="{{route('cart.order')}}"  enctype="multipart/form-data" >
+                    {{csrf_field()}}
                     <div class="row"> 
 
                         <div class="col-lg-8 col-12">
@@ -109,7 +110,7 @@
                                                     <select name="shipping" class="nice-select">
                                                         <option value="">Select your address</option>
                                                         @foreach(Helper::shipping() as $shipping)
-                                                        <option value="{{$shipping->id}}" class="shippingOption" data-price="{{$shipping->price}}">{{$shipping->type}}: ${{$shipping->price}}</option>
+                                                        <option value="{{$shipping->id}}" class="shippingOption" data-price="{{$shipping->price}}">{{$shipping->type}}: Rp. {{$shipping->price}}</option>
                                                         @endforeach
                                                     </select>
                                                 @else 
@@ -142,9 +143,11 @@
                                         <div class="checkbox">
                                             {{-- <label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label> --}}
                                             <form-group>
-                                                <input name="payment_method"  type="radio" value="cod"> <label> Cash On Delivery</label><br>
-                                                <input name="payment_method"  type="radio" value="paypal"> <label> PayPal</label> 
+                                                <input id="thumbnail" class="form-control" type="file" name="transfer_evidence" value="{{old('transfer_evidence')}}">
                                             </form-group>
+                                            @error('transfer_evidence')
+                                            <span class="text-danger">{{$message}}</span>
+                                            @enderror
                                             
                                         </div>
                                     </div>
@@ -161,7 +164,7 @@
                                 <div class="single-widget get-button">
                                     <div class="content">
                                         <div class="button">
-                                            <button id="pay-button" class="btn">proceed to checkout</button>
+                                            <button type="submit" id="pay-button" class="btn">proceed to checkout</button>
                                         </div>
                                     </div>
                                 </div>
@@ -241,15 +244,6 @@
         </div>
     </section>
 
-<script type="text/javascript">
-    // For example trigger on button clicked, or any time you need
-    var payButton = document.getElementById('pay-button');
-    payButton.addEventListener('click', function () {
-      // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
-      window.snap.pay({{$snap_token}});
-      // customer will be redirected after completing payment pop-up
-    });
-  </script>
     <!-- End Shop Newsletter -->
 @endsection
 @push('styles')
@@ -298,9 +292,7 @@
 @push('js')
 	<script src="{{asset('frontend/js/nice-select/js/jquery.nice-select.min.js')}}"></script>
 	<script src="{{ asset('frontend/js/select2/js/select2.min.js') }}"></script>
-    <script type="text/javascript"
-    src="https://app.sandbox.midtrans.com/snap/snap.js"
-    data-client-key="SB-Mid-client-lWw0_nTlQG_dzbZ0"></script>
+
 	<script>
 		$(document).ready(function() { $("select.select2").select2(); });
   		$('select.nice-select').niceSelect();

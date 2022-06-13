@@ -4,134 +4,26 @@
 <div class="content">
   <div class="card">
     <div class="card-header card-header-primary">
-      <h4 class="card-title">{{ __('Tambah Buku') }}</h4>
-      <p class="card-category">{{ __('Tambah buku pada form di bawah') }}</p>
+      <h4 class="card-title">{{ __('Edit Order Status') }}</h4>
+      <p class="card-category">{{ __('Edit Order Status pada form di bawah') }}</p>
     </div>
     <div style="padding : 40px;" class="container-fluid">
       <div class="row">
         <div class="col-md-12">
          
-          <form method="post" action="{{route('product.update', $product->id)}}" enctype="multipart/form-data" >
-            @csrf 
+          <form action="{{route('order.update',$order->id)}}" method="POST">
+            @csrf
             @method('PATCH')
-            <div>
-              <label for="name" class="col-form-label">Title <span class="text-danger">*</span></label>
-              <input id="name" type="text" name="name" placeholder="Masukan Judul Buku"  value="{{$product->name}}" class="form-control">
-              @error('name')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-
-    
-    
-            <div style="margin-top : 20px;">
-              <label for="summary " class="col-form-label">Summary</label>
-              <input value={{$product->summary}}  id="summary" type="hidden" name="summary">
-              <trix-editor input="summary"></trix-editor>
-              @error('summary')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-    
-            <div style="margin-top : 20px;">
-              <label for="description" class="col-form-label">Description</label>
-              <input value="{{$product->description}}"  id="description" type="hidden" name="description">
-              <trix-editor input="description"></trix-editor>
-              @error('description')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-    
-  
-            <div style="margin-top : 20px;">
-              <label for="category_id">Category <span class="text-danger">*</span></label>
-              <select name="category_id" id="cat_id" class="form-control">
-                  <option value="">-- Pilih Kategori Buku --</option>
-                  @foreach($category as $key=>$cat_data)
-                      <option {{$product->category_id === $cat_data->id ? 'selected' : " "}} value='{{$cat_data->id}}'>{{$cat_data->name}}</option>
-                  @endforeach
+            <div class="form-group">
+              <label for="status">Status :</label>
+              <select name="status" id="" class="form-control">
+                <option value="new" {{($order->status=='delivered' || $order->status=="processing" || $order->status=="cancel") ? 'disabled' : ''}}  {{(($order->status=='new')? 'selected' : '')}}>New</option>
+                <option value="processing" {{($order->status=='delivered'|| $order->status=="cancel") ? 'disabled' : ''}}  {{(($order->status=='processing')? 'selected' : '')}}>process</option>
+                <option value="delivered" {{($order->status=="cancelled") ? 'disabled' : ''}}  {{(($order->status=='delivered')? 'selected' : '')}}>Delivered</option>
+                <option value="cancelled" {{($order->status=='delivered') ? 'disabled' : ''}}  {{(($order->status=='cancelled')? 'selected' : '')}}>Cancel</option>
               </select>
-              @error('category_id')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
             </div>
-    
-      
-            <div style="margin-top : 20px;">
-              <label for="price" class="col-form-label">Harga (Rp.) <span class="text-danger">*</span></label>
-              <input maxlength="6" id="price" type="number" name="price" placeholder="Enter price"  value="{{$product->price}}" class="form-control">
-              @error('price')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-    
-    
-            <div style="margin-top : 20px;">
-              <label for="publisher_id">Penerbit</label>
-              {{-- {{$publishers}} --}}
-    
-              <select name="publisher_id" class="form-control">
-                  <option value="">-- Pilih Penerbit --</option>
-                 @foreach($publishers as $publisher)
-                  <option {{$product->publisher_id === $publisher->id ? 'selected' : " "}} value="{{$publisher->id}}">{{$publisher->name}}</option>
-                 @endforeach
-              </select>
-              @error('publisher_id')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-
-            <div style="margin-top : 20px;">
-              <label for="writer_id">Penulis</label>
-              {{-- {{$publishers}} --}}
-    
-              <select name="writer_id" class="form-control">
-                  <option value="">-- Pilih Penulis --</option>
-                 @foreach($writers as $writer)
-                  <option {{$product->writer_id === $writer->id ? 'selected' : " "}} value="{{$writer->id}}">{{$writer->name}}</option>
-                 @endforeach
-              </select>
-              @error('writer_id') 
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-            <div style="margin-top : 20px;">
-              <label for="stock">Jumlah <span class="text-danger">*</span></label>
-              <input id="quantity" type="number" name="stock" min="0" placeholder="Masukan Jumlah"  value="{{$product->stock}}" class="form-control">
-              @error('stock')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-            <div style="margin-top : 20px;">
-              <label for="inputPhoto" class="col-form-label">Photo <span class="text-danger">*</span></label>
-              <div class="input-group" >
-                  {{-- <span class="text-white ">
-                      <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary btn-sm">
-                      <i class="fa fa-picture-o"></i> Choose
-                      </a>
-                  </span> --}}
-              <input id="thumbnail" class="form-control" type="file" name="image" >
-            </div>
-            <div id="holder" style="margin-top:15px;max-height:100px;"></div>
-              @error('image')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-            
-            <div style="margin-top : 20px;">
-              <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
-              <select  name="status" class="form-control">
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-              </select>
-              @error('status')
-              <span class="text-danger">{{$message}}</span>
-              @enderror
-            </div>
-            <div style="margin-top : 20px;"mb-3">
-              <button type="reset" class="btn btn-warning">Reset</button>
-               <button class="btn btn-success" type="submit">Submit</button>
-            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
           </form>
         </div>
       </div>

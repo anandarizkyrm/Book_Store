@@ -10,7 +10,6 @@
     <div style="padding : 40px;" class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-         
           <form method="post" action="{{route('product.store')}}" enctype="multipart/form-data" >
             {{csrf_field()}}
             <div>

@@ -17,6 +17,10 @@ class ProfileController extends Controller
     {
         return view('profile.edit');
     }
+    public function edituser()
+    {
+        return view('user-dashboard.layouts.profile.edit');
+    }
 
     /**
      * Update the profile
@@ -31,7 +35,7 @@ class ProfileController extends Controller
         return back()->withStatus(__('Profile successfully updated.'));
     }
 
-    /**
+    /*
      * Change the password
      *
      * @param  \App\Http\Requests\PasswordRequest  $request

@@ -1,5 +1,6 @@
-@extends('frontend.layouts.master')
+@extends('client.layout.master')
 @section('title','Cart Page')
+
 @section('main-content')
 	<!-- Breadcrumbs -->
 	<div class="breadcrumbs">
@@ -42,11 +43,11 @@
 									@foreach(Helper::getAllProductFromCart() as $key=>$cart)
 										<tr>
 											@php
-											$photo=explode(',',$cart->product['photo']);
+											$photo=explode(',',$cart->book['image']);
 											@endphp
 											<td class="image" data-title="No"><img src="{{$photo[0]}}" alt="{{$photo[0]}}"></td>
 											<td class="product-des" data-title="Description">
-												<p class="product-name"><a href="{{route('product-detail',$cart->product['slug'])}}" target="_blank">{{$cart->product['title']}}</a></p>
+												<p class="product-name"><a href="{{route('product-detail',$cart->book['slug'])}}" target="_blank">{{$cart->book['name']}}</a></p>
 												<p class="product-des">{!!($cart['summary']) !!}</p>
 											</td>
 											<td class="price" data-title="Price"><span>${{number_format($cart['price'],2)}}</span></td>
@@ -102,23 +103,7 @@
 					<!-- Total Amount -->
 					<div class="total-amount">
 						<div class="row">
-							<div class="col-lg-8 col-md-5 col-12">
-								<div class="left">
-									<div class="coupon">
-									<form action="{{route('coupon-store')}}" method="POST">
-											@csrf
-											<input name="code" placeholder="Enter Your Coupon">
-											<button class="btn">Apply</button>
-										</form>
-									</div>
-									{{-- <div class="checkbox">`
-										@php
-											$shipping=DB::table('shippings')->where('status','active')->limit(1)->get();
-										@endphp
-										<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox" onchange="showMe('shipping');"> Shipping</label>
-									</div> --}}
-								</div>
-							</div>
+						
 							<div class="col-lg-4 col-md-7 col-12">
 								<div class="right">
 									<ul>
@@ -200,7 +185,7 @@
 	<!-- End Shop Newsletter -->
 
 	<!-- Start Shop Newsletter  -->
-	@include('frontend.layouts.newsletter')
+	{{-- @include('client.layout.newsletter') --}}
 	<!-- End Shop Newsletter -->
 
 @endsection

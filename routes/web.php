@@ -68,31 +68,8 @@ Route::get('/add-to-cart/{slug}',[CartController::class ,'addToCart'])->name('ad
 Route::post('/add-to-cart',[CartController::class, 'singleAddToCart'])->name('single-add-to-cart')->middleware('user');
 Route::get('cart-delete/{id}',[CartController::class, 'cartDelete'])->name('cart-delete');
 Route::post('cart-update',[CartController::class, 'cartUpdate'])->name('cart.update');
-Route::get('/checkout',function(){
-    \Midtrans\Config::$serverKey = 'SB-Mid-server-Ld1CfyKdVgAqZjGR4-TUonaN';
-    // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-    \Midtrans\Config::$isProduction = false;
-    // Set sanitization on (default)
-    \Midtrans\Config::$isSanitized = true;
-    // Set 3DS transaction for credit card to true
-    \Midtrans\Config::$is3ds = true;
-    
-    $params = array(
-        'transaction_details' => array(
-            'order_id' => rand(),
-            'gross_amount' => 10000,
-        ),
-        'customer_details' => array(
-            'first_name' => 'budi',
-            'last_name' => 'pratama',
-            'email' => 'budi.pra@example.com',
-            'phone' => '08111222333',
-        ),
-    );
-
-$snapToken = \Midtrans\Snap::getSnapToken($params);
-
-return view('client.pages.checkout')->with('snap_token',$snapToken);
+Route::get('/checkout', function(){
+    return view('client.pages.checkout');
 })->name('checkout')->middleware('user');
 
 Route::post('cart/order',[OrderController::class, 'store'])->name('cart.order');
@@ -148,6 +125,12 @@ Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su-admin']], functio
 	Route::get('/notification/{id}','NotificationController@show')->name('admin.notification');
     Route::get('/notifications','NotificationController@index')->name('all.notification');
     Route::delete('/notification/{id}','NotificationController@delete')->name('notification.delete');
+
+    Route::get('profile', ['as' => 'admin.profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
+	Route::put('profile', ['as' => 'admin.profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
+	Route::put('profile/password', ['as' => 'admin.profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
+
+    Route::get('/order/show/{id}',[HomeController::class, 'orderShow'])->name('user.order.show');
 });
 
 Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su']], function () {
@@ -159,7 +142,7 @@ Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su']], function () {
 });
 Route::group(['middleware' => 'auth'], function () {
 	// Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
-	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
+	Route::get('/profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edituser']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 });

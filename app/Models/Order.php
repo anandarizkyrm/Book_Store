@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'order_number', 'sub_total', 'total_amount', 'quantity', 'payment_method', 'payment_status', 'status', 'user_id', 'shipping_id', 'email', 'phone', 'address', 'post_code', 'first_name','last_name' ];
+    protected $fillable = [ 'order_number', 'sub_total', 'total_amount', 'quantity', 'transfer_evidence', 'status', 'user_id', 'shipping_id', 'email', 'phone', 'address', 'post_code', 'first_name','last_name' ];
 
     public function user()
     {
@@ -38,7 +38,7 @@ class Order extends Model
     }
 
     public static function totalIncome(){
-        $data = Order::where('payment_status', 'paid')->sum('total_amount');
+        $data = Order::where('payment_status', 'paid')->where('status','delivered')->sum('total_amount');
         if($data){
             return $data;
         }
@@ -46,14 +46,14 @@ class Order extends Model
     }
 
     public static function totalIncomeToday(){
-        $data = Order::whereDate('created_at', date('Y-m-d'))->where('payment_status', 'paid')->sum('total_amount');
+        $data = Order::whereDate('created_at', date('Y-m-d'))->where('status','delivered')->sum('total_amount');
         if($data){
             return $data;
         }
         return 0;
     }
     public static function totalIncomeThisMonth(){
-        $data = Order::whereMonth('created_at', date('m'))->where('payment_status', 'paid')->sum('total_amount');
+        $data = Order::whereMonth('created_at', date('m'))->where('status','delivered')->sum('total_amount');
         if($data){
             return $data;
         }
@@ -61,7 +61,7 @@ class Order extends Model
     }
 
     public static function totalIncomeThisYear(){
-        $data = Order::whereYear('created_at', date('Y'))->where('payment_status', 'paid')->sum('total_amount');
+        $data = Order::whereYear('created_at', date('Y'))->where('status','delivered')->sum('total_amount');
         if($data){
             return $data;
         }

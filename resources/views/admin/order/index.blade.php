@@ -65,12 +65,12 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{route('order.show',$order->id)}}" class="btn btn-warning btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
-                        <a href="{{route('order.edit',$order->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
+                        <a href="{{route('order.show',$order->id)}}" class="btn btn-info btn-sm btn-round btn-just-icon "  data-toggle="tooltip" title="view" data-placement="bottom"><i class="material-icons">info</i></a>
+                        <a href="{{route('order.edit',$order->id)}}" class="btn btn-warning btn-sm btn-round btn-just-icon "  data-toggle="tooltip" title="edit" data-placement="bottom"><i class="material-icons">warning</i></a>
                         <form method="POST" action="{{route('order.destroy',[$order->id])}}">
                           @csrf 
                           @method('delete')
-                              <button class="btn btn-danger btn-sm dltBtn" data-id={{$order->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                              <button class="btn btn-danger btn-sm btn-round btn-just-icon dltBtn" data-id={{$order->id}}  data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>
                         </form>
                     </td>
                 </tr>  

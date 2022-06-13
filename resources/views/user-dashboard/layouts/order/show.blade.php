@@ -1,8 +1,9 @@
-@extends('user.layouts.master')
+@extends('user-dashboard.main', ['activePage' => 'profile', 'titlePage' => __('Order')])
 
 @section('title','Order Detail')
 
-@section('main-content')
+@section('content')
+<div style="padding : 30px; margin-top : 30px;">
 <div class="card">
 <h5 class="card-header">Order       <a href="{{route('order.pdf',$order->id)}}" class=" btn btn-sm btn-primary shadow-sm float-right"><i class="fas fa-download fa-sm text-white-50"></i> Generate PDF</a>
   </h5>
@@ -46,7 +47,7 @@
                 <form method="POST" action="{{route('order.destroy',[$order->id])}}">
                   @csrf
                   @method('delete')
-                      <button class="btn btn-danger btn-sm dltBtn" data-id={{$order->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                      <button class="btn btn-danger btn-sm dltBtn" data-id={{$order->id}}  data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>
                 </form>
             </td>
 
@@ -56,11 +57,32 @@
 
     <section class="confirmation_part section_padding">
       <div class="order_boxes">
-        <div class="row">
+        <div style="margin-top : 4rem; display : flex; justify-content : center;" class="row ">
           <div class="col-lg-6 col-lx-4">
             <div class="order-info">
               <h4 class="text-center pb-4">ORDER INFORMATION</h4>
               <table class="table">
+                <tr class="">
+                  <td>Full Name</td>
+                  <td> : {{$order->first_name}} {{$order->last_name}}</td>
+              </tr>
+              <tr>
+                  <td>Email</td>
+                  <td> : {{$order->email}}</td>
+              </tr>
+              <tr>
+                  <td>Phone No.</td>
+                  <td> : {{$order->phone}}</td>
+              </tr>
+              <tr>
+                  <td>Address</td>
+                  <td> : {{$order->address}}</td>
+              </tr>
+          
+              <tr>
+                  <td>Post Code</td>
+                  <td> : {{$order->post_code}}</td>
+              </tr>
                     <tr class="">
                         <td>Order Number</td>
                         <td> : {{$order->order_number}}</td>
@@ -79,7 +101,7 @@
                     </tr>
                     <tr>
                       @php
-                          $shipping_charge=DB::table('shippings')->where('id',$order->shipping_id)->pluck('price');
+                          $shipping_charge=DB::table('shipping')->where('id',$order->shipping_id)->pluck('price');
                       @endphp
                         <td>Shipping Charge</td>
                         <td> :${{$order->shipping->price}}</td>
@@ -89,54 +111,21 @@
                         <td> : $ {{number_format($order->total_amount,2)}}</td>
                     </tr>
                     <tr>
-                      <td>Payment Method</td>
-                      <td> : @if($order->payment_method=='cod') Cash on Delivery @else Paypal @endif</td>
+                      <td>Payment</td>
+                      <td>    <img src="{{asset('/storage/'.$order->transfer_evidence)}}" class="img-fluid zoom" style="max-width:80px" alt="{{'Gambar'}}"></td>
                     </tr>
-                    <tr>
-                        <td>Payment Status</td>
-                        <td> : {{$order->payment_status}}</td>
-                    </tr>
+                   
               </table>
             </div>
           </div>
 
-          <div class="col-lg-6 col-lx-4">
-            <div class="shipping-info">
-              <h4 class="text-center pb-4">SHIPPING INFORMATION</h4>
-              <table class="table">
-                    <tr class="">
-                        <td>Full Name</td>
-                        <td> : {{$order->first_name}} {{$order->last_name}}</td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td> : {{$order->email}}</td>
-                    </tr>
-                    <tr>
-                        <td>Phone No.</td>
-                        <td> : {{$order->phone}}</td>
-                    </tr>
-                    <tr>
-                        <td>Address</td>
-                        <td> : {{$order->address1}}, {{$order->address2}}</td>
-                    </tr>
-                    <tr>
-                        <td>Country</td>
-                        <td> : {{$order->country}}</td>
-                    </tr>
-                    <tr>
-                        <td>Post Code</td>
-                        <td> : {{$order->post_code}}</td>
-                    </tr>
-              </table>
-            </div>
-          </div>
         </div>
       </div>
     </section>
     @endif
 
   </div>
+</div>
 </div>
 @endsection
 

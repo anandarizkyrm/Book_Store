@@ -44,114 +44,82 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
-
-     // midtrans in here yo 
-    public function store(Request $request)
-    {
-        // $this->validate($request,[
-        //     'first_name'=>'string|required',
-        //     'last_name'=>'string|required',
-        //     'address'=>'string|required',
-        //     'coupon'=>'nullable|numeric',
-        //     'phone'=>'numeric|required',
-        //     'post_code'=>'string|nullable',
-        //     'email'=>'string|required'
-        // ]);
-        // return $request->all();
-
-             \Midtrans\Config::$serverKey = 'SB-Mid-server-Ld1CfyKdVgAqZjGR4-TUonaN';
-            // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-            \Midtrans\Config::$isProduction = false;
-            // Set sanitization on (default)
-            \Midtrans\Config::$isSanitized = true;
-            // Set 3DS transaction for credit card to true
-            \Midtrans\Config::$is3ds = true;
-            
-            $params = array(
-                'transaction_details' => array(
-                    'order_id' => rand(),
-                    'gross_amount' => 10000,
-                ),
-                'customer_details' => array(
-                    'first_name' => 'budi',
-                    'last_name' => 'pratama',
-                    'email' => 'budi.pra@example.com',
-                    'phone' => '08111222333',
-                ),
-            );
- 
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
-
-        return view('client.pages.checkout')->with('snap_token',$snapToken);
-
-        // if(empty(Cart::where('user_id',auth()->user()->id)->where('order_id',null)->first())){
-        //     request()->session()->flash('error','Cart is Empty !');
-        //     return back();
-        // }
+    public function store(Request $request){
      
+        $this->validate($request,[
+            'first_name'=>'string|required',
+            'last_name'=>'string|required',
+            'address'=>'string|required',
+            'transfer_evidence'=>'image|file|max:2048',
+            'coupon'=>'nullable|numeric',
+            'phone'=>'numeric|required',
+            'post_code'=>'string|nullable',
+            'email'=>'string|required'
+        ]);
+        
+        
+        if(empty(Cart::where('user_id',auth()->user()->id)->where('order_id',null)->first())){
+            request()->session()->flash('error','Cart is Empty !');
+            return back();
+        }
+     
+        $order=new Order();
+        $order_data=$request->all();
+        $order_data['order_number']='ORD-'.strtoupper(Str::random(10));
+        $order_data['user_id']=$request->user()->id;
+        $order_data['shipping_id']=$request->shipping;
+        $shipping=Shipping::where('id',$order_data['shipping_id'])->pluck('price');
+        // return session('coupon')['value'];
+        $order_data['sub_total']=Helper::totalCartPrice();
+        $order_data['quantity']=Helper::cartCount();
+   
+        if($request->file('transfer_evidence')){
+            $order_data['transfer_evidence'] = $request->file('transfer_evidence')->store('transfer_evidence');    
+        }
 
-        // $order=new Order();
-        // $order_data=$request->all();
-        // $order_data['order_number']='ORD-'.strtoupper(Str::random(10));
-        // $order_data['user_id']=$request->user()->id;
-        // $order_data['shipping_id']=$request->shipping;
-        // $shipping=Shipping::where('id',$order_data['shipping_id'])->pluck('price');
-        // // return session('coupon')['value'];
-        // $order_data['sub_total']=Helper::totalCartPrice();
-        // $order_data['quantity']=Helper::cartCount();
-        // if(session('coupon')){
-        //     $order_data['coupon']=session('coupon')['value'];
-        // }
-        // if($request->shipping){
-        //     if(session('coupon')){
-        //         $order_data['total_amount']=Helper::totalCartPrice()+$shipping[0]-session('coupon')['value'];
-        //     }
-        //     else{
-        //         $order_data['total_amount']=Helper::totalCartPrice()+$shipping[0];
-        //     }
-        // }
-        // else{
-        //     if(session('coupon')){
-        //         $order_data['total_amount']=Helper::totalCartPrice()-session('coupon')['value'];
-        //     }
-        //     else{
-        //         $order_data['total_amount']=Helper::totalCartPrice();
-        //     }
-        // }
-        // // return $order_data['total_amount'];
-        // $order_data['status']="new";
-        // if(request('payment_method')=='paypal'){
-        //     $order_data['payment_method']='paypal';
-        //     $order_data['payment_status']='paid';
-        // }
-        // else{
-        //     $order_data['payment_method']='cod';
-        //     $order_data['payment_status']='Unpaid';
-        // }
-        // $order->fill($order_data);
-        // $status=$order->save();
-        // if($order)
-        // // dd($order->id);
-        // $users=User::where('role','admin')->first();
-        // $details=[
-        //     'title'=>'New order created',
-        //     'actionURL'=>route('admin.order.show',$order->id),
-        //     'fas'=>'fa-file-alt'
-        // ];
-        // Notification::send($users, new StatusNotification($details));
-        // if(request('payment_method')=='paypal'){
-        //     return redirect()->route('payment')->with(['id'=>$order->id]);
-        // }
-        // else{
-        //     session()->forget('cart');
-        //     session()->forget('coupon');
-        // }
-        // Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
+      
+        if(session('coupon')){
+            $order_data['coupon']=session('coupon')['value'];
+        }
+        if($request->shipping){
+            if(session('coupon')){
+                $order_data['total_amount']=Helper::totalCartPrice()+$shipping[0]-session('coupon')['value'];
+            }
+            else{
+                $order_data['total_amount']=Helper::totalCartPrice()+$shipping[0];
+            }
+        }
+        else{
+            if(session('coupon')){
+                $order_data['total_amount']=Helper::totalCartPrice()-session('coupon')['value'];
+            }
+            else{
+                $order_data['total_amount']=Helper::totalCartPrice();
+            }
+        }
+        // return $order_data['total_amount'];
+        $order_data['status']="new";
+      
+        $order->fill($order_data);
+        $status=$order->save();
+        if($order)
+        // dd($order->id);
+            $users=User::where('role','admin')->first();
+            $details=[
+                'title'=>'New order created',
+                'actionURL'=>route('order.show',$order->id),
+                'fas'=>'fa-file-alt'
+            ];
+        Notification::send($users, new StatusNotification($details));
+      
+            session()->forget('cart');
+            session()->forget('coupon');
 
-        // // dd($users);        
-        // request()->session()->flash('success','Your product successfully placed in order');
-        // return redirect()->route('home');
+        Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
+
+        // dd($users);        
+        request()->session()->flash('success','Your product successfully placed in order');
+        return redirect()->route('home');
     }
 
 
@@ -175,8 +143,9 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {   
+        $order=Order::find($id);
+        return view('admin.order.edit')->with('order',$order);
     }
 
     /**
@@ -188,7 +157,28 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $order=Order::find($id);
+        $this->validate($request,[
+            'status'=>'required|in:new,process,delivered,cancel'
+        ]);
+        $data=$request->all();
+        // return $request->status;
+        if($request->status=='delivered'){
+            foreach($order->cart as $cart){
+                $product=$cart->book;
+                // return $product;
+                $product->stock -=$cart->quantity;
+                $product->save();
+            }
+        }
+        $status=$order->fill($data)->save();
+        if($status){
+            request()->session()->flash('success','Successfully updated order');
+        }
+        else{
+            request()->session()->flash('error','Error while updating order');
+        }
+        return redirect()->route('order.index');
     }
 
     /**
