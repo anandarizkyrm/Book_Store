@@ -54,19 +54,21 @@
                  <td>
                     @if($users->role == 'admin')
                         <span class="badge badge-primary">{{$users->role}}</span>
-                    @else
+                    @elseif($users->role == 'user')
                         <span class="badge badge-secondary">{{$users->role}}</span>
+                    @else
+                        <span class="badge badge-danger">{{$users->role}}</span>
                     @endif
                  </td>
                 
                  <td >
                   {{-- <a href="{{route('product.edit',$users->id)}}" class="btn btn-primary btn-sm" style="height:30px; width:20px;" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="material-icons">edit</i></a> --}}
                   <div class="d-flex">
-                    <a href="{{route('product.edit', $users->id)}}" class="btn btn-warning btn-sm btn-round btn-just-icon">
+                    <a href="{{route('user.edit', $users->id)}}" class="btn btn-warning btn-sm btn-round btn-just-icon">
                       <i class="material-icons">edit</i>
                       <div class="ripple-container"></div>
                     </a>
-                  <form method="POST" action="{{route('product.destroy',[$users->id])}}">
+                  <form method="POST" action="{{route('user.destroy',[$users->id])}}">
                     @csrf
                     @method('delete')
                         <button c class="btn btn-danger btn-sm btn-round btn-just-icon" data-id={{$users->id}} data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>

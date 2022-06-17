@@ -64,8 +64,15 @@
               <span class="text-danger">{{$message}}</span>
               @enderror
             </div>
-    
-    
+
+            <div style="margin-top : 20px;">
+              <label for="discount" class="col-form-label">Diskon (%) <span class="text-danger">*</span></label>
+              <input max="100" id="price" type="number" name="discount" placeholder="Enter Discount"  value="{{$product->discount}}" class="form-control">
+              @error('discount')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+            </div>
+  
             <div style="margin-top : 20px;">
               <label for="publisher_id">Penerbit</label>
               {{-- {{$publishers}} --}}

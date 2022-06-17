@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Book;
 use App\Models\Publisher;
+use App\Models\User;
 use App\Models\Writer;
 use Auth;
 use Session;
@@ -102,7 +103,7 @@ class ClientController extends Controller
 
     public function productDetail($slug){
         $product_detail= Book::getBookBySlug($slug);
-    
+        
         return view('client.pages.product-detail')->with('product_detail',$product_detail);
     }
 
@@ -156,6 +157,7 @@ class ClientController extends Controller
         return User::create([
             'name'=>$data['name'],
             'email'=>$data['email'],
+            
             'password'=>Hash::make($data['password']),
             'status'=>'active'
             ]);

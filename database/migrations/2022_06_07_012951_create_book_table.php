@@ -17,7 +17,7 @@ class CreateBookTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
-            $table->text('summary');
+            $table->longText('summary');
             $table->longText('description');
             $table->integer('stock')->default(1);
             $table->text('image');

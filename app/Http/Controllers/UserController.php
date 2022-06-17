@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy("role", "ASC")->get();
         return view('admin.user.index')->with('users', $users);
     }
 
@@ -37,7 +37,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,
+        [
+            'name'=>'string|required|max:30',
+            'email'=>'string|required|unique:users',
+            'password'=>'string|required',
+            'role'=>'required|in:admin,user',
+            'photo'=>'nullable|string',
+        ]);
+        // dd($request->all());
+        $data=$request->all();
+        $data['password']=Hash::make($request->password);
+        // dd($data);
+        $status=User::create($data);
+        // dd($status);
+        if($status){
+            request()->session()->flash('success','Successfully added user');
+        }
+        else{
+            request()->session()->flash('error','Error occurred while adding user');
+        }
+        return redirect()->route('user.index');
+
     }
 
     /**
@@ -58,8 +79,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {   
+        $user=User::findOrFail($id);
+        return view('admin.user.edit')->with('user',$user);
     }
 
     /**
@@ -71,7 +93,28 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user=User::findOrFail($id);
+        $this->validate($request,
+        [
+            'name'=>'string|required|max:30',
+            'email'=>'string|required',
+            'role'=>'required|in:admin,user',
+            'photo'=>'nullable|string',
+        ]);
+        // dd($request->all());
+        
+        // dd($data);
+        $data=$request->all();
+
+        
+        $status=$user->fill($data)->save();
+        if($status){
+            request()->session()->flash('success','Successfully updated');
+        }
+        else{
+            request()->session()->flash('error','Error occured while updating');
+        }
+        return redirect()->route('user.index');
     }
 
     /**
@@ -82,6 +125,14 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delete=User::findorFail($id);
+        $status=$delete->delete();
+        if($status){
+            request()->session()->flash('success','User Successfully deleted');
+        }
+        else{
+            request()->session()->flash('error','There is an error while deleting users');
+        }
+        return redirect()->route('user.index');
     }
 }

@@ -38,12 +38,28 @@
 
     </head>
     <body class="{{ $class ?? '' }}">
+        @if(session('success'))
+        <div style="margin-left: 15rem;" class="alert alert-success alert-dismissable fade show text-center">
+            <button class="close" data-dismiss="alert" aria-label="Close">×</button>
+            {{session('success')}}
+            
+        </div>
+    @endif
+
+
+    @if(session('error'))
+        <div style="margin-left: 5rem;" class="alert alert-danger alert-dismissable fade show text-center">
+            <button class="close" data-dismiss="alert" aria-label="Close">×</button>
+            {{session('error')}}
+        </div>
+    @endif
         @auth()
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
             @include('layouts.page_templates.auth')
         @endauth
+      
         @guest()
             @include('layouts.page_templates.guest')
         @endguest

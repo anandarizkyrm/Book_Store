@@ -60,14 +60,16 @@ class ProductController extends Controller
             'price'=>'required|numeric',
             'discount' => 'required|numeric'
         ]);
-
-
+      
         $book = $request->all();
         //store image 
+     
         if($request->file('image')){
-            $book['image'] = $request->file('image')->store('images');    
+            $request->file('image')->store('images');
+            $book['image'] = $request->file('image')->hashName();    
         }
-    
+        
+      
         $slug = Str::slug($request->name);
         
         //make sure slug unique in database and if exist add a number to the end of slug
