@@ -43,14 +43,14 @@
                  <td >
                   {{-- <a href="{{route('product.edit',$category->id)}}" class="btn btn-primary btn-sm" style="height:30px; width:20px;" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="material-icons">edit</i></a> --}}
                   <div class="d-flex">
-                    <a href="{{route('product.edit', $category->id)}}" class="btn btn-warning btn-sm btn-round btn-just-icon">
+                    <a href="{{route('category.edit', $category->id)}}" class="btn btn-warning btn-sm btn-round btn-just-icon">
                       <i class="material-icons">edit</i>
                       <div class="ripple-container"></div>
                     </a>
-                  <form method="POST" action="{{route('product.destroy',[$category->id])}}">
+                  <form method="POST" action="{{route('category.destroy',[$category->id])}}">
                     @csrf
                     @method('delete')
-                        <button c class="btn btn-danger btn-sm btn-round btn-just-icon" data-id={{$category->id}} data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>
+                        <button class="btn btn-danger btn-sm btn-round btn-just-icon dltBtn" data-id={{$category->id}} data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>
                    </form>
                   </div>
                 </td>
@@ -80,7 +80,7 @@
      </table>
      {{-- <span style="float:right">{{$category->links()}}</span> --}}
      @else
-       <h6 class="text-center">No categorys found!!! Please create category</h6>
+       <h6 class="text-center">No categories found!!! Please create category</h6>
      @endif
    </div>
  </div>
@@ -88,7 +88,7 @@
 </div>
 @endsection
 
-@push('styles')
+@push('css')
 <link href="{{asset('backend/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <style>
@@ -105,7 +105,7 @@
 </style>
 @endpush
 
-@push('scripts')
+@push('js')
 
 <!-- Page level plugins -->
 <script src="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"></script>

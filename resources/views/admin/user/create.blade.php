@@ -14,7 +14,7 @@
             {{csrf_field()}}
             <div>
               <label for="name" class="col-form-label">Nama <span class="text-danger">*</span></label>
-              <input id="name" type="text" name="name" placeholder="Masukan Judul Buku"  value="{{old('name')}}" class="form-control">
+              <input id="name" type="text" name="name" placeholder="Masukan Nama"  value="{{old('name')}}" class="form-control">
               @error('name')
               <span class="text-danger">{{$message}}</span>
               @enderror

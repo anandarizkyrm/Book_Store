@@ -24,9 +24,9 @@
               <th>Penerbit</th>
               <th>Penulis</th>
               <th>Stok</th>
-              <th>Foto</th>
+              {{-- <th>Foto</th> --}}
               <th>Status</th>
-              <th>Aksi  </th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tfoot>
@@ -38,9 +38,9 @@
               <th>Penerbit</th>
               <th>Penulis</th>
               <th>Stok</th>
-              <th>Foto</th>
+              {{-- <th>Foto</th> --}}
               <th>Status</th>
-              <th>Aksi  </th>
+              <th>Aksi</th>
             </tr>
           </tfoot>
           <tbody>
@@ -70,7 +70,7 @@
                       <span class="badge badge-danger">{{$product->stock}}</span>
                       @endif
                     </td>
-                    <td>
+                    {{-- <td>
                         @if($product->image)
                             @php
                               $image=explode(',',$product->image);
@@ -80,7 +80,7 @@
                         @else
                             <img src="{{asset('/img/thumbnail-default.jpg')}}" class="img-fluid" style="max-width:80px" alt="avatar.png">
                         @endif
-                    </td>
+                    </td> --}}
                     <td>
                         @if($product->status=='active')
                             <span class="badge badge-success">{{$product->status}}</span>
@@ -114,7 +114,7 @@
 </div>
 @endsection
 
-@push('styles')
+@push('css')
   <link href="{{asset('backend/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
   <style>
@@ -134,23 +134,16 @@
 @push('js')
 
   <!-- Page level plugins -->
-  <script src="{{asset('backend/vendor/datatables/jquery.dataTables.min.js')}}"></script>
-  <script src="{{asset('backend/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+  <script src="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+  
 
   <!-- Page level custom scripts -->
   <script src="{{asset('backend/js/demo/datatables-demo.js')}}"></script>
   <script>
 
-      $('#product-dataTable').DataTable( {
-        "scrollX": false
-            "columnDefs":[
-                {
-                    "orderable":false,
-                    "targets":[10,11,12]
-                }
-            ]
-        } );
+      $('#product-dataTable').DataTable();
 
         // Sweet alert
 

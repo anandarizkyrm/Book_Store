@@ -25,7 +25,8 @@ class PublisherController extends Controller
      */
     public function create()
     {
-        //
+        $publisher=Publisher::orderBy('name','ASC')->get();
+        return view('admin.publisher.create')->with('publisher',$publisher);
     }
 
     /**
@@ -36,7 +37,26 @@ class PublisherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request->all();
+      
+        $this->validate($request,[
+            'name'=>'string|required',
+            'email' => 'email|required',
+            'address' => 'string|required',
+ 
+        ]);
+        $data= $request->all();
+ 
+        // return $data;
+        $status=Publisher::create($data);
+        if($status){
+            request()->session()->flash('success','Publisher successfully added');
+        }
+        else{
+            request()->session()->flash('error','Error occurred, Please try again!');
+        }
+        return redirect()->route('publisher.index');
+
     }
 
     /**
@@ -58,7 +78,9 @@ class PublisherController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        $publisher=Publisher::findOrFail($id);
+        return view('admin.publisher.edit')->with('publisher',$publisher);
     }
 
     /**
@@ -70,7 +92,25 @@ class PublisherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       // return $request->all();
+       $category=Publisher::findOrFail($id);
+       $this->validate($request,[
+           'name'=>'string|required',
+           'email' => 'email|required',
+           'address' => 'string|required',
+
+       ]);
+       $data= $request->all();
+
+       // return $data;
+       $status=$category->fill($data)->save();
+       if($status){
+           request()->session()->flash('success','Publisher successfully updated');
+       }
+       else{
+           request()->session()->flash('error','Error occurred, Please try again!');
+       }
+       return redirect()->route('publisher.index');
     }
 
     /**
@@ -81,6 +121,21 @@ class PublisherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $publisher = Publisher::findOrFail($id);
+        $book = $publisher->books;
+
+        if(count($book)>0){
+            request()->session()->flash('error','Category cannot be deleted as it has books');
+            return redirect()->route('publisher.index');
+        }
+        
+        $status = $publisher->delete();
+        if($status){
+            request()->session()->flash('success','Category successfully deleted');
+        }
+        else{
+            request()->session()->flash('error','Error while deleting publisher');
+        }
+        return redirect()->route('publisher.index');
     }
 }

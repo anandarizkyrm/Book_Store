@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -26,7 +27,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $parent_cats=Category::orderBy('name','ASC')->get();
+        return view('admin.category.create')->with('parent_cats',$parent_cats);
     }
 
     /**
@@ -37,7 +39,30 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request->all();
+        $this->validate($request,[
+            'name'=>'string|required',
+             
+            
+        ]);
+        $data= $request->all();
+        $slug=Str::slug($request->name);
+        $count=Category::where('slug',$slug)->count();
+        if($count>0){
+            $slug=$slug.'-'.date('ymdis').'-'.rand(0,999);
+        }
+        $data['slug']=$slug;
+
+        // return $data;   
+        $status=Category::create($data);
+        if($status){
+            request()->session()->flash('success','Category successfully added');
+        }
+        else{
+            request()->session()->flash('error','Error occurred, Please try again!');
+        }
+        return redirect()->route('category.index');
+
     }
 
     /**
@@ -59,7 +84,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $parent_cats=Category::get();
+        $category=Category::findOrFail($id);
+        return view('admin.category.edit')->with('category',$category)->with('parent_cats',$parent_cats);
     }
 
     /**
@@ -71,7 +98,26 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // return $request->all();
+        $category=Category::findOrFail($id);
+        $this->validate($request,[
+            'name'=>'string|required',
+ 
+        ]);
+        $data= $request->all();
+        $slug=Str::slug($request->name);
+
+        $data['slug'] = $slug;
+
+        // return $data;
+        $status=$category->fill($data)->save();
+        if($status){
+            request()->session()->flash('success','Category successfully updated');
+        }
+        else{
+            request()->session()->flash('error','Error occurred, Please try again!');
+        }
+        return redirect()->route('category.index');
     }
 
     /**
@@ -82,6 +128,21 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $book = $category->books;
+
+        if(count($book)>0){
+            request()->session()->flash('error','Category cannot be deleted as it has books');
+            return redirect()->route('category.index');
+        }
+        
+        $status = $category->delete();
+        if($status){
+            request()->session()->flash('success','Category successfully deleted');
+        }
+        else{
+            request()->session()->flash('error','Error while deleting category');
+        }
+        return redirect()->route('category.index');
     }
 }

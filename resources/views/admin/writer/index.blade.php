@@ -11,7 +11,7 @@
   </div>
  <div class="card-header py-3">
    <h6 class="m-0 font-weight-bold text-primary float-left">Daftar Penulis Buku</h6>
-   <a href="{{route('writer.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Add Penulis</a>
+   <a href="{{route('writer.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Tambah Penulis</a>
  </div>
  <div class="card-body">
    <div class="table-responsive">
@@ -50,7 +50,7 @@
                   <form method="POST" action="{{route('writer.destroy',[$writer->id])}}">
                     @csrf
                     @method('delete')
-                        <button c class="btn btn-danger btn-sm btn-round btn-just-icon" data-id={{$writer->id}} data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>
+                        <button c class="btn btn-danger btn-sm btn-round btn-just-icon dltBtn" data-id={{$writer->id}} data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>
                    </form>
                   </div>
                 </td>
@@ -88,7 +88,7 @@
 </div>
 @endsection
 
-@push('styles')
+@push('css')
 <link href="{{asset('backend/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <style>
@@ -105,7 +105,7 @@
 </style>
 @endpush
 
-@push('scripts')
+@push('js')
 
 <!-- Page level plugins -->
 <script src="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"></script>
