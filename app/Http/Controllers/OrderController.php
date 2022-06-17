@@ -192,15 +192,6 @@ class OrderController extends Controller
         //
     }
 
-    public function pdf(Request $request){
-        $order=Order::getAllOrder($request->id);
-        // return $order;
-        $file_name=$order->order_number.'-'.$order->first_name.'.pdf';
-        // return $file_name;
-        $pdf=PDF::loadview('backend.order.pdf',compact('order'));
-        return $pdf->download($file_name);
-    }
-
     public function incomeChart(Request $request){
         $year=\Carbon\Carbon::now()->year;
         // dd($year);
@@ -226,6 +217,15 @@ class OrderController extends Controller
         }
         return $data;
     }
+    public function pdf(User $user, Request $request)
+    {
+        $order=Order::getAllOrder($request->id);
+        // return $order;
+        $file_name=$order->order_number.'-'.$order->first_name.'.pdf';
+        // return $file_name;
+        $pdf=PDF::loadview('client.layout.print.invoice',compact('order'));
+        return $pdf->stream('invoice.pdf');
 
+    }
 
 }

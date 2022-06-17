@@ -721,7 +721,7 @@ Version:1.0
 	font-size: 18px;
 	color: var(--secondary);
 	background: #333333;
-	position: absolute;
+
 	right: -2px;
 	top: -1px;
 	border: none;

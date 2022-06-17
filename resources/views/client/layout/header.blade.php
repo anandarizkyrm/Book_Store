@@ -52,7 +52,8 @@
                         <div class="top-search"><a href="#0"><i class="ti-search"></i></a></div>
                         <!-- Search Form -->
                         <div class="search-top">
-                            <form class="search-form">
+                            <form method="POST" action="{{route('product.search')}}" class="search-form">
+                                @csrf                               
                                 <input type="text" placeholder="Search here..." name="search">
                                 <button value="search" type="submit"><i class="ti-search"></i></button>
                             </form>
@@ -66,10 +67,10 @@
                     <div class="search-bar-top">
                         <div class="search-bar">
                            
-                            <form method="POST" >
+                            <form style="display: flex; width : 30rem; margin-left : 80px;"  method="POST" action="{{route('product.search')}}" >
                                 @csrf
-                                <input name="search" placeholder="Search Products Here....." type="search">
-                                <button class="btnn" type="submit"><i class="ti-search"></i></button>
+                                <input style="width: 100%; margin-right :0px;" name="search" placeholder="Search Products Here....." type="search">
+                                <button style="margin-left : 0px; " class="btnn" type="submit"><i class="ti-search"></i></button>
                             </form>
                         </div>
                     </div>
@@ -95,7 +96,7 @@
                                                     @endphp
                                                     <li>
                                                         <a href="{{route('cart-delete',$data->id)}}" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
-                                                        <a class="cart-img" href="#"><img src="{{$photo[0]}}" alt="{{$photo[0]}}"></a>
+                                                        <a class="cart-img" href="#">	<img src="{{asset('/storage/images/'.$photo[0])}}" alt="{{$data}}"></a>
                                                         <h4><a href="{{route('product-detail',$data->book['slug'])}}" target="_blank">{{$data->book['title']}}</a></h4>
                                                         <p class="quantity">{{$data->quantity}} x - <span class="amount">${{number_format($data->price,2)}}</span></p>
                                                     </li>

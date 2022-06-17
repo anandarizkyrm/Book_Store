@@ -20,7 +20,7 @@ class CartTable extends Migration
             $table->unsignedBigInteger('order_id')->nullable();
             $table->float('price');
             $table->integer('quantity');
-            $table->float('amount');
+            $table->BigInteger('amount');
             $table->enum('status',['new','progress', 'delivered', 'cancel'])->default('new');
             $table->foreign('book_id')->references('id')->on('books')->onDelete('CASCADE');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');

@@ -19,10 +19,10 @@ class OrderTable extends Migration
             $table->id();
 
             $table->string('order_number')->unique();
-            $table->float('sub_total');
+            $table->BigInteger('sub_total');
             $table->string('first_name');
             $table->string('last_name')->nullable();
-            $table->float('total_amount');
+            $table->BigInteger('total_amount');
             $table->integer('quantity');
             $table->string('transfer_evidence');
             $table->enum('payment_status',['pending', 'paid', 'cancelled']);
