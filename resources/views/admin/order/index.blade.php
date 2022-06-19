@@ -4,11 +4,13 @@
 
 @section('content')
  <!-- DataTales Example -->
- <div style="padding: 40px; padding-top : 70px">
+ <div style="padding: 40px; padding-top : 70px">P
  <div class="card shadow mb-4">
 
     <div class="card-header py-3">
       <h6 class="m-0 font-weight-bold text-primary float-left">Daftar Order</h6>
+      
+      <a  class="btn btn-primary btn-sm float-right"><i class="material-icon">download</i> Generate PDF</a>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -21,7 +23,7 @@
               <th>Name</th>
               <th>Email</th>
               <th>Quantity</th>
-              <th>Charge</th>
+              <th>Shipping Charge</th>
               <th>Total Amount</th>
               <th>Status</th>
               <th>Action</th>
@@ -34,7 +36,7 @@
               <th>Name</th>
               <th>Email</th>
               <th>Quantity</th>
-              <th>Charge</th>
+              <th>Shipping Charge</th>
               <th>Total Amount</th>
               <th>Status</th>
               <th>Action</th>
@@ -51,8 +53,8 @@
                     <td>{{$order->first_name}} {{$order->last_name}}</td>
                     <td>{{$order->email}}</td>
                     <td>{{$order->quantity}}</td>
-                    <td>@foreach($shipping_charge as $data) $ {{number_format($data,2)}} @endforeach</td>
-                    <td>${{number_format($order->total_amount,2)}}</td>
+                    <td> Rp. {{number_format($order->ongkir,2)}}</td>
+                    <td>Rp. {{number_format($order->total_amount,2)}}</td>
                     <td>
                         @if($order->status=='new')
                           <span class="badge badge-primary">{{$order->status}}</span>
