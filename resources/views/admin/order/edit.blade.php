@@ -17,6 +17,7 @@
             <div class="form-group">
               <label for="status">Status :</label>
               <select name="status" id="" class="form-control">
+                
                 <option value="new" {{($order->status=='delivered' || $order->status=="processing" || $order->status=="cancel") ? 'disabled' : ''}}  {{(($order->status=='new')? 'selected' : '')}}>New</option>
                 <option value="processing" {{($order->status=='delivered'|| $order->status=="cancel") ? 'disabled' : ''}}  {{(($order->status=='processing')? 'selected' : '')}}>process</option>
                 <option value="delivered" {{($order->status=="cancelled") ? 'disabled' : ''}}  {{(($order->status=='delivered')? 'selected' : '')}}>Delivered</option>

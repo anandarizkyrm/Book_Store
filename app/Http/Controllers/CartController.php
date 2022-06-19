@@ -175,4 +175,55 @@ class CartController extends Controller
         request()->session()->flash('success','Book successfully added to cart');
         return back();       
     }  
+
+    public function cartDelete(Request $request){
+        $cart = Cart::find($request->id);
+        if ($cart) {
+            $cart->delete();
+            request()->session()->flash('success','Cart successfully removed');
+            return back();  
+        }
+        request()->session()->flash('error','Error please try again');
+        return back();       
+    }     
+
+
+    public function cartUpdate(Request $request){
+        // dd($request->all());
+        if($request->quant){
+            $error = array();
+            $success = '';
+            // return $request->quant;
+            foreach ($request->quant as $k=>$quant) {
+                // return $k;
+                $id = $request->qty_id[$k];
+                // return $id;
+                $cart = Cart::find($id);
+                // return $cart;
+                if($quant > 0 && $cart) {
+                    // return $quant;
+
+                    if($cart->book->stock < $quant){
+                        request()->session()->flash('error','Out of stock');
+                        return back();
+                    }
+                    $cart->quantity = ($cart->book->stock > $quant) ? $quant  : $cart->book->stock;
+                    // return $cart;
+                    
+                    if ($cart->book->stock <=0) continue;
+                    $after_price=($cart->book->price-($cart->book->price*$cart->book->discount)/100);
+                    $cart->amount = $after_price * $quant;
+                    // return $cart->price;
+                    $cart->save();
+                    $success = 'Cart successfully updated!';
+                }else{
+                    $error[] = 'Cart Invalid!';
+                }
+            }
+            return back()->with($error)->with('success', $success);
+        }else{
+            return back()->with('Cart Invalid!');
+        }    
+    }
+
 }

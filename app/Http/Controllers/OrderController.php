@@ -11,7 +11,7 @@ use PDF;
 use Notification;
 use Helper;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -51,55 +51,41 @@ class OrderController extends Controller
             'last_name'=>'string|required',
             'address'=>'string|required',
             'transfer_evidence'=>'image|file|max:2048',
-            'coupon'=>'nullable|numeric',
+            'city' =>'required',
+            'ongkir'=>'string|required',
             'phone'=>'numeric|required',
             'post_code'=>'string|nullable',
             'email'=>'string|required'
         ]);
         
-        
+     
         if(empty(Cart::where('user_id',auth()->user()->id)->where('order_id',null)->first())){
             request()->session()->flash('error','Cart is Empty !');
             return back();
         }
      
         $order=new Order();
+      
         $order_data=$request->all();
+      
         $order_data['order_number']='ORD-'.strtoupper(Str::random(10));
         $order_data['user_id']=$request->user()->id;
-        $order_data['shipping_id']=$request->shipping;
-        $shipping=Shipping::where('id',$order_data['shipping_id'])->pluck('price');
+   
         // return session('coupon')['value'];
         $order_data['sub_total']=Helper::totalCartPrice();
         $order_data['quantity']=Helper::cartCount();
-   
+        $order_data['ongkir']=$request->ongkir;
+        $order_data['city']=$request->city;
+        $order_data['total_amount']=Helper::totalCartPrice() + $request->ongkir;
         if($request->file('transfer_evidence')){
             $order_data['transfer_evidence'] = $request->file('transfer_evidence')->store('transfer_evidence');    
         }
 
-      
-        if(session('coupon')){
-            $order_data['coupon']=session('coupon')['value'];
-        }
-        if($request->shipping){
-            if(session('coupon')){
-                $order_data['total_amount']=Helper::totalCartPrice()+$shipping[0]-session('coupon')['value'];
-            }
-            else{
-                $order_data['total_amount']=Helper::totalCartPrice()+$shipping[0];
-            }
-        }
-        else{
-            if(session('coupon')){
-                $order_data['total_amount']=Helper::totalCartPrice()-session('coupon')['value'];
-            }
-            else{
-                $order_data['total_amount']=Helper::totalCartPrice();
-            }
-        }
+
+        
         // return $order_data['total_amount'];
         $order_data['status']="new";
-      
+        $order_data['payment_status']='paid';
         $order->fill($order_data);
         $status=$order->save();
         if($order)
@@ -159,7 +145,7 @@ class OrderController extends Controller
     {
         $order=Order::find($id);
         $this->validate($request,[
-            'status'=>'required|in:new,process,delivered,cancel'
+            'status'=>'required|in:new,processing,delivered,cancel'
         ]);
         $data=$request->all();
         // return $request->status;
@@ -216,6 +202,22 @@ class OrderController extends Controller
             $data[$monthName] = (!empty($result[$i]))? number_format((float)($result[$i]), 2, '.', '') : 0.0;
         }
         return $data;
+    }
+
+    public function check_ongkir(Request $request){
+       
+        $response = Http::withHeaders([
+            'key' => 'ae86c96ad91b3b085792b8345dca809c'
+        ])->post('https://api.rajaongkir.com/starter/cost', [
+            'origin' => '36',
+            'destination' => $request->destination,
+            'weight' => $request->weight,
+            'courier' => 'jne'
+        ]);
+
+    
+
+        return $response->json();
     }
     public function pdf(User $user, Request $request)
     {

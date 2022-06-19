@@ -15,6 +15,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaypalController;
+use Illuminate\Support\Facades\Http;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,7 +70,13 @@ Route::post('/add-to-cart',[CartController::class, 'singleAddToCart'])->name('si
 Route::get('cart-delete/{id}',[CartController::class, 'cartDelete'])->name('cart-delete');
 Route::post('cart-update',[CartController::class, 'cartUpdate'])->name('cart.update');
 Route::get('/checkout', function(){
-    return view('client.pages.checkout');
+    
+
+    $kota = Http::withHeaders([
+        'key' => 'ae86c96ad91b3b085792b8345dca809c'
+     ])->get('https://api.rajaongkir.com/starter/city');
+ 
+    return view('client.pages.checkout')->with('kota', $kota);
 })->name('checkout')->middleware('user');
 
 Route::post('cart/order',[OrderController::class, 'store'])->name('cart.order');
@@ -106,10 +113,10 @@ Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su-admin']], functio
 
 
 	Route::get('/income',[OrderController::class, 'incomeChart'])->name('book.order.income');
+  
 	
     // Order
     Route::resource('/order',OrderController::class);
-
     
 	Route::get('rtl-support', function () {
         return view('pages.language');
@@ -154,6 +161,7 @@ Route::group(['prefix'=>'/user','middleware'=>['user']],function(){
      // Profile
      Route::get('/profile',[HomeController::class, 'profile'])->name('user-profile');
      Route::post('/profile/{id}',[HomeController::class, 'profileUpdate'])->name('user-profile-update');
+     Route::post('/check_ongkir', [OrderController::class, 'check_ongkir'])->name('check_ongkir');
     //  Order
     Route::get('/order',[HomeController::class, 'orderIndex'])->name('user.order.index');
     Route::get('/order/show/{id}',[HomeController::class, 'orderShow'])->name('user.order.show');

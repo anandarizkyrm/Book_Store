@@ -45,7 +45,7 @@
 											@php
 											$photo=explode(',',$cart->book['image']);
 											@endphp
-											<td class="image" data-title="No"><img src="{{$photo[0]}}" alt="{{$photo[0]}}"></td>
+											<td class="image" data-title="No"><img src="{{asset('/storage/images/'.$photo[0])}}"  alt="{{$photo[0]}}"></td>
 											<td class="product-des" data-title="Description">
 												<p class="product-name"><a href="{{route('product-detail',$cart->book['slug'])}}" target="_blank">{{$cart->book['name']}}</a></p>
 												<p class="product-des">{!!($cart['summary']) !!}</p>
@@ -139,57 +139,12 @@
 	</div>
 	<!--/ End Shopping Cart -->
 
-	<!-- Start Shop Services Area  -->
-	<section class="shop-services section">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-6 col-12">
-					<!-- Start Single Service -->
-					<div class="single-service">
-						<i class="ti-rocket"></i>
-						<h4>Free shiping</h4>
-						<p>Orders over $100</p>
-					</div>
-					<!-- End Single Service -->
-				</div>
-				<div class="col-lg-3 col-md-6 col-12">
-					<!-- Start Single Service -->
-					<div class="single-service">
-						<i class="ti-reload"></i>
-						<h4>Free Return</h4>
-						<p>Within 30 days returns</p>
-					</div>
-					<!-- End Single Service -->
-				</div>
-				<div class="col-lg-3 col-md-6 col-12">
-					<!-- Start Single Service -->
-					<div class="single-service">
-						<i class="ti-lock"></i>
-						<h4>Sucure Payment</h4>
-						<p>100% secure payment</p>
-					</div>
-					<!-- End Single Service -->
-				</div>
-				<div class="col-lg-3 col-md-6 col-12">
-					<!-- Start Single Service -->
-					<div class="single-service">
-						<i class="ti-tag"></i>
-						<h4>Best Peice</h4>
-						<p>Guaranteed price</p>
-					</div>
-					<!-- End Single Service -->
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Shop Newsletter -->
-
 	<!-- Start Shop Newsletter  -->
 	{{-- @include('client.layout.newsletter') --}}
 	<!-- End Shop Newsletter -->
 
 @endsection
-@push('styles')
+@push('css')
 	<style>
 		li.shipping{
 			display: inline-flex;
@@ -232,7 +187,7 @@
 		}
 	</style>
 @endpush
-@push('scripts')
+@push('js')
 	<script src="{{asset('frontend/js/nice-select/js/jquery.nice-select.min.js')}}"></script>
 	<script src="{{ asset('frontend/js/select2/js/select2.min.js') }}"></script>
 	<script>

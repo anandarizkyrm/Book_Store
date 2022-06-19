@@ -1,3 +1,4 @@
+
 @extends('client.layout.master')
 
 @section('title','Checkout page')
@@ -103,35 +104,28 @@
                                     <h2>CART  TOTALS</h2>
                                     <div class="content">
                                         <ul>
-										    <li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Cart Subtotal<span>${{number_format(Helper::totalCartPrice(),2)}}</span></li>
+										    <li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Cart Subtotal<span>Rp. <span id="order_subtotal">{{number_format(Helper::totalCartPrice(),2)}}</span></span></li>
+                                            <li> Total Items<span id="total_item">{{Helper::cartCount()}}</span></li>
+                                         
                                             <li class="shipping">
-                                                Shipping Cost
-                                                @if(count(Helper::shipping())>0 && Helper::cartCount()>0)
-                                                    <select name="shipping" class="nice-select">
-                                                        <option value="">Select your address</option>
-                                                        @foreach(Helper::shipping() as $shipping)
-                                                        <option value="{{$shipping->id}}" class="shippingOption" data-price="{{$shipping->price}}">{{$shipping->type}}: Rp. {{$shipping->price}}</option>
+                                               
+                                                @if($kota->json())
+                                                    <select id="shipping" name="shipping" class="nice-select">
+                                                        <option value="">Select your City</option>
+                                                        @foreach($kota->json()['rajaongkir']['results'] as $shipping)
+                                                        <option value="{{$shipping['city_id']}}">{{$shipping['city_name']}}</option>
+                                                        {{-- <option value="{{$shipping->id}}" class="shippingOption" data-price="{{$shipping->price}}">{{$shipping->type}}: Rp. {{$shipping->price}}</option> --}}
                                                         @endforeach
                                                     </select>
                                                 @else 
-                                                    <span>Free</span>
+                                                    <span></span>
                                                 @endif
                                             </li>
-                                            
-                                            @if(session('coupon'))
-                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">You Save<span>${{number_format(session('coupon')['value'],2)}}</span></li>
-                                            @endif
-                                            @php
-                                                $total_amount=Helper::totalCartPrice();
-                                                if(session('coupon')){
-                                                    $total_amount=$total_amount-session('coupon')['value'];
-                                                }
-                                            @endphp
-                                            @if(session('coupon'))
-                                                <li class="last"  id="order_total_price">Total<span>${{number_format($total_amount,2)}}</span></li>
-                                            @else
-                                                <li class="last"  id="order_total_price">Total<span>${{number_format($total_amount,2)}}</span></li>
-                                            @endif
+                                            <li>Ongkir Rp. <span name="ongkir" id="ongkir">0</span></li>
+                                            <input type="hidden" name="ongkir" id="ongkir_value" value="0">
+                                            <input type="hidden" name="city" id="city" value="">
+                                            <li>Total<span>Rp. <span name="total" id="total"></span></span></li>
+                                          
                                         </ul>
                                     </div>
                                 </div>
@@ -176,52 +170,7 @@
         </div>
     </section>
     <!--/ End Checkout -->
-    
-    <!-- Start Shop Services Area  -->
-    <section class="shop-services section home">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Service -->
-                    <div class="single-service">
-                        <i class="ti-rocket"></i>
-                        <h4>Free shiping</h4>
-                        <p>Orders over $100</p>
-                    </div>
-                    <!-- End Single Service -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Service -->
-                    <div class="single-service">
-                        <i class="ti-reload"></i>
-                        <h4>Free Return</h4>
-                        <p>Within 30 days returns</p>
-                    </div>
-                    <!-- End Single Service -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Service -->
-                    <div class="single-service">
-                        <i class="ti-lock"></i>
-                        <h4>Sucure Payment</h4>
-                        <p>100% secure payment</p>
-                    </div>
-                    <!-- End Single Service -->
-                </div>
-                <div class="col-lg-3 col-md-6 col-12">
-                    <!-- Start Single Service -->
-                    <div class="single-service">
-                        <i class="ti-tag"></i>
-                        <h4>Best Peice</h4>
-                        <p>Guaranteed price</p>
-                    </div>
-                    <!-- End Single Service -->
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Shop Services -->
-    
+
     <!-- Start Shop Newsletter  -->
     <section class="shop-newsletter section">
         <div class="container">
@@ -297,6 +246,46 @@
 		$(document).ready(function() { $("select.select2").select2(); });
   		$('select.nice-select').niceSelect();
 	</script>
+    <script>
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        $(document).ready(function(){
+            $('#shipping').change(function(){
+                                /* Get from elements values */
+                
+                    let values=$(this).val();
+                    let weight = $('#total_item').text();
+                    let order_subtotal = $('#order_subtotal').text();
+                    $('#city').val($(this).find(':selected').text());
+
+
+                  
+                    $('#ongkir').text("Loading...");
+                    $.ajax({
+                        url: "{{route('check_ongkir', )}}",
+                        type: 'post',
+                        data : {
+                            _token: "{{csrf_token()}}",
+                            weight: weight * 400,
+                            destination: values,
+                           
+                        },
+                        success: function (response) {
+                            // console.log(response);
+                            console.log(response)
+                            $('#ongkir').text(numberWithCommas(response['rajaongkir'].results[0]['costs'][0]['cost'][0]['value']));
+                            $('#ongkir_value').val(response['rajaongkir'].results[0]['costs'][0]['cost'][0]['value']);
+                            $('#total').text(numberWithCommas(parseFloat(order_subtotal.replace(/[^\d\.\-]/g, "")) + parseFloat(response['rajaongkir'].results[0]['costs'][0]['cost'][0]['value'])));
+                            // You will get response from your PHP page (what you echo or print)
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(textStatus, errorThrown);
+                        }
+                    });
+                })
+            });
+    </script>
 
 	<script>
 		function showMe(box){

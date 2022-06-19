@@ -31,7 +31,7 @@
             <td>{{$order->first_name}} {{$order->last_name}}</td>
             <td>{{$order->email}}</td>
             <td>{{$order->quantity}}</td>
-            <td>{{$order->shipping ? $order->shipping->price : 0}}</td>
+            <td>{{$order->ongkir}}</td>
             <td>Rp. {{number_format($order->total_amount,2)}}</td>
             <td>
                 @if($order->status=='new')

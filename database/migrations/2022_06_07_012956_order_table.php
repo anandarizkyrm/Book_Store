@@ -30,8 +30,10 @@ class OrderTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('shipping_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
-            $table->foreign('shipping_id')->references('id')->on('shipping')->onDelete('SET NULL');
+            // $table->foreign('shipping_id')->references('id')->on('shipping')->onDelete('SET NULL');
+            $table->float('ongkir');
             $table->string('email');
+            $table->string('city');
             $table->string('phone');
             $table->string('address');
             $table->string('post_code');
