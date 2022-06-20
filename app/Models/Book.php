@@ -26,14 +26,17 @@ class Book extends Model
 
     public static function getAllBook(){
         return Book::with('category')->orderBy('id', 'desc')->paginate(10);
-     
     }
 
+    
     public static function getAllBooksReport($start, $end){
         return Book::whereBetween('created_at', [$start, $end])->get();
     }
     public static function getAllSoldReport($start, $end){
         return Cart::whereBetween('created_at', [$start, $end])->get();
+    }
+    public static function getAllDiscount($start, $end){
+        return Book::where('discount', '>', 0)->whereBetween('created_at', [$start, $end])->get();
     }
     public function getReview(){
         return $this->hasMany('App\Models\Review','book_id','id')->with('user_info')->orderBy('id','DESC');

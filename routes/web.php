@@ -15,6 +15,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaypalController;
+use App\Models\Book;
 use Illuminate\Support\Facades\Http;
 /*
 |--------------------------------------------------------------------------
@@ -105,7 +106,18 @@ Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su-admin']], functio
 
 	Route::get('/', [AdminController::class, 'index'])->name('admin');
 	Route::resource('product', ProductController::class)->name('*', 'data');
-	Route::resource('category', CategoryController::class)->name('*','category');
+    
+    
+    
+    Route::get('edit_discount/{id}', function($id){
+        $product = Book::find($id);
+        return view('admin.product.edit_discount', compact('product'));
+    })->name('edit-discount');
+    
+    Route::patch('discount/{id}', [ProductController::class, 'EditDiscount'])->name('discount.edit');
+	
+    
+    Route::resource('category', CategoryController::class)->name('*','category');
 
 	Route::resource('publisher', PublisherController::class)->name('*','publisher');
 	Route::resource('writer', WriterController::class)->name('*','writer');
@@ -113,6 +125,7 @@ Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su-admin']], functio
 
 	Route::get('/income',[OrderController::class, 'incomeChart'])->name('book.order.income');
     Route::get('/sold',[ProductController::class, 'GetSoldBooks'])->name('book.sold');
+    Route::get('/discount',[ProductController::class, 'GetDiscount'])->name('book.discount');
 	
     // Order
     Route::resource('/order',OrderController::class);
@@ -142,7 +155,10 @@ Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su-admin']], functio
     Route::post('allorder/pdf',[OrderController::class, 'all_order_pdf'])->name('allorder.pdf');
     Route::post('allbook/pdf',[ProductController::class, 'all_book_pdf'])->name('allbook.pdf');
     Route::post('allsold/pdf',[ProductController::class, 'all_sold_pdf'])->name('allsold.pdf');
+    Route::post('alldiscount/pdf',[ProductController::class, 'all_discount_pdf'])->name('discount.pdf');
     Route::post('allusers/pdf',[UserController::class, 'all_users_pdf'])->name('allusers.pdf');
+    Route::post('chart_income/pdf',[OrderController::class, 'chart_income_pdf'])->name('chart_income.pdf');
+    
 });
 
 Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su']], function () {

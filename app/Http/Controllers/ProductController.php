@@ -179,6 +179,18 @@ class ProductController extends Controller
         return redirect()->route('product.index');
     }
 
+    public static function EditDiscount(Request $request, $id){
+        $book=Book::findOrFail($id);
+        $book['discount'] = $request->discount;
+        $status=$book->save();
+        if($status){
+            request()->session()->flash('success','Discount Updated');
+        }
+        else{
+            request()->session()->flash('error','Please try again!!');
+        }
+        return redirect()->route('book.discount');
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -205,6 +217,11 @@ class ProductController extends Controller
         return view('admin.product.sold')->with('books', $books);
     }
 
+    public function GetDiscount(){
+        $books = Book::where('discount', '!=', 0)->get();
+       
+        return view('admin.product.discount')->with('books', $books);
+    }
     public function all_book_pdf(Request $request)
     {
         $book=Book::getAllBooksReport($request->start, $request->end);
@@ -228,6 +245,18 @@ class ProductController extends Controller
     
         $pdf=PDF::loadview('client.layout.print.allsold',compact('book'), ['start' => $request->start, 'end' => $request->end]);
         return $pdf->stream('allsold.pdf');
+
+    }
+
+    public function all_discount_pdf(Request $request)
+    {
+        $book=Book::getAllDiscount($request->start, $request->end);
+        // return $order;
+
+        // return $file_name;
+
+        $pdf=PDF::loadview('client.layout.print.alldiscount',compact('book'), ['start' => $request->start, 'end' => $request->end]);
+        return $pdf->stream('alldiscount.pdf');
 
     }
 }

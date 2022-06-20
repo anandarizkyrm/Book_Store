@@ -202,7 +202,9 @@ class OrderController extends Controller
             $monthName=date('F', mktime(0,0,0,$i,1));
             $data[$monthName] = (!empty($result[$i]))? number_format((float)($result[$i]), 2, '.', '') : 0.0;
         }
+        
         return $data;
+
     }
 
     public function check_ongkir(Request $request){
@@ -240,6 +242,36 @@ class OrderController extends Controller
     
         $pdf=PDF::loadview('client.layout.print.allorders',compact('order'), ['start' => $request->start, 'end' => $request->end]);
         return $pdf->stream('allorders.pdf');
+
+    }
+
+    public function chart_income_pdf(Request $request)
+    {
+        $year=\Carbon\Carbon::now()->year;
+        // dd($year);
+        $items=Order::with(['cart'])->whereYear('created_at',$year)->where('status','delivered')->get()
+            ->groupBy(function($d){
+                return \Carbon\Carbon::parse($d->created_at)->format('m');
+            });
+            // dd($items);
+        $result=[];
+        foreach($items as $month=>$item_collections){
+            foreach($item_collections as $item){
+                $amount=$item->cart->sum('amount');
+                // dd($amount);
+                $m=intval($month);
+                // return $m;
+                isset($result[$m]) ? $result[$m] += $amount :$result[$m]=$amount;
+            }
+        }
+        $data=[];
+        for($i=1; $i <=12; $i++){
+            $monthName=date('F', mktime(0,0,0,$i,1));
+            $data[$monthName] = (!empty($result[$i]))? number_format((float)($result[$i]), 2, '.', '') : 0.0;
+        }
+       
+        $pdf=PDF::loadview('client.layout.print.chart',compact('data'));
+        return $pdf->stream('chart.pdf');
 
     }
 

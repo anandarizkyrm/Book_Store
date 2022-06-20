@@ -10,7 +10,7 @@
 <body>
     <div class="">
         <div class="text-center">
-            <h3>Laporan Data Pengguna</h3>
+            <h3>Laporan Data Buku</h3>
             <div style="display: flex;" class="d-flex">
                 <p><span style="font-weight: 900;">Dari Tanggal</span> : {{$start}} <span style="font-weight: 900;">  Sampai Tanggal</span> : {{$end}}</p>
             </div>
