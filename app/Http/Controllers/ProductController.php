@@ -7,7 +7,9 @@ use App\DataTables\BookDataTable;
 use App\Models\Writer;
 use App\Models\Publisher;
 use App\Models\Category;
-
+use App\Models\Order;
+use App\Models\Cart;
+use PDF;
 
 use Illuminate\Support\Str;
 
@@ -195,5 +197,37 @@ class ProductController extends Controller
             request()->session()->flash('error','Error while deleting product');
         }
         return redirect()->route('product.index');
+    }
+
+    public function GetSoldBooks(){
+        $books = Cart::where('order_id', '!=', null)->get();
+       
+        return view('admin.product.sold')->with('books', $books);
+    }
+
+    public function all_book_pdf(Request $request)
+    {
+        $book=Book::getAllBooksReport($request->start, $request->end);
+        // return $order;
+
+        // return $file_name;
+      
+    
+        $pdf=PDF::loadview('client.layout.print.allbooks',compact('book'), ['start' => $request->start, 'end' => $request->end]);
+        return $pdf->stream('allbooks.pdf');
+
+    }
+
+    public function all_sold_pdf(Request $request)
+    {
+        $book=Book::getAllSoldReport($request->start, $request->end);
+        // return $order;
+
+        // return $file_name;
+      
+    
+        $pdf=PDF::loadview('client.layout.print.allsold',compact('book'), ['start' => $request->start, 'end' => $request->end]);
+        return $pdf->stream('allsold.pdf');
+
     }
 }

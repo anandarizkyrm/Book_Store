@@ -40,6 +40,18 @@
                 <span class="sidebar-normal"> {{ __('Tambah Produk') }} </span>
               </a>
             </li>
+            <li class="nav-item {{  Request::is('admin/product-sold') ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('book.sold') }}">
+                <span class="sidebar-mini"> BT </span>
+                <span class="sidebar-normal">{{ __('Buku Terjual') }}  </span>
+              </a>
+            </li>
+            <li class="nav-item {{ Request::is('admin/product-discount') ? ' active' : ''}}">
+              <a class="nav-link" href="{{ route('product.create') }}">
+                <span class="sidebar-mini"> DB </span>
+                <span class="sidebar-normal"> {{ __('Diskon Buku') }} </span>
+              </a>
+            </li>
           </ul>
         </div>
       </li>

@@ -4,15 +4,22 @@
  <!-- DataTales Example -->
  <div style="padding: 40px; padding-top : 70px">
  <div class="card shadow mb-4">
-  <div class="row">
-      {{-- <div class="col-md-12">
-         @include('backend.layouts.notification')
-      </div> --}}
-  </div>
+
  <div class="card-header py-3">
    <h6 class="m-0 font-weight-bold text-primary float-left">Daftar Pengguna Website</h6>
-   <a href="{{route('user.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"> <i class="material-icons">add</i> Add users</a>
- </div>
+    
+   <div class="d-flex float-right">
+    <form style="width: 28rem; display : flex; justify-content : center ; align-items : center;" method="post" action="{{route('allusers.pdf')}}"  >
+      {{csrf_field()}}
+      <label style="padding: 0px; margin : 0px; color :rgb(36, 36, 36)" for="">Dari</label>
+      <input  style="margin: 5px; color : rgb(112, 112, 112); border : 1px solid rgb(175, 175, 175) ; border-radius : 4px;" type="date" name="start" />
+      <label  style="padding: 0px; margin : 0px; color :rgb(36, 36, 36)" for="">-</label>
+      <input  style="margin: 5px; color : rgb(112, 112, 112); border : 1px solid rgb(175, 175, 175) ; border-radius : 4px;"  type="date" name="end" />
+      <button type="submit" class="btn btn-primary btn-sm float-right"><i class="material-icons">download</i> Unduh  PDF</button>
+    </form>
+    <a href="{{route('user.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"> <i class="material-icons">add</i> Add users</a>
+  </div> 
+  </div>
  <div class="card-body">
    <div class="table-responsive">
      @if(count($users)>0)

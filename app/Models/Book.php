@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Cart;
 
 class Book extends Model
 {
@@ -28,6 +29,12 @@ class Book extends Model
      
     }
 
+    public static function getAllBooksReport($start, $end){
+        return Book::whereBetween('created_at', [$start, $end])->get();
+    }
+    public static function getAllSoldReport($start, $end){
+        return Cart::whereBetween('created_at', [$start, $end])->get();
+    }
     public function getReview(){
         return $this->hasMany('App\Models\Review','book_id','id')->with('user_info')->orderBy('id','DESC');
     }

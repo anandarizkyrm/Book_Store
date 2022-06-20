@@ -4,13 +4,19 @@
 
 @section('content')
  <!-- DataTales Example -->
- <div style="padding: 40px; padding-top : 70px">P
+ <div style="padding: 40px; padding-top : 70px">
  <div class="card shadow mb-4">
 
     <div class="card-header py-3">
       <h6 class="m-0 font-weight-bold text-primary float-left">Daftar Order</h6>
-      
-      <a  class="btn btn-primary btn-sm float-right"><i class="material-icon">download</i> Generate PDF</a>
+      <form style="width: 28rem; display : flex; justify-content : center ; align-items : center;" class="float-right" method="post" action="{{route('allorder.pdf')}}"  >
+        {{csrf_field()}}
+          <label style="padding: 0px; margin : 0px; color :rgb(36, 36, 36)" for="">Dari</label>
+          <input  style="margin: 5px; color : rgb(112, 112, 112); border : 1px solid rgb(226, 226, 226) border-radius : 10px;" type="date" name="start" />
+          <label  style="padding: 0px; margin : 0px; color :rgb(36, 36, 36)" for="">-</label>
+          <input  style="margin: 5px; color : rgb(112, 112, 112); border : 1px solid rgb(179, 179, 179) border-radius : 10px;"  type="date" name="end" />
+          <button type="submit" class="btn btn-primary btn-sm float-right"><i class="material-icons">download</i> Unduh  PDF</button>
+      </form>
     </div>
     <div class="card-body">
       <div class="table-responsive">

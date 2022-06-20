@@ -70,8 +70,6 @@ Route::post('/add-to-cart',[CartController::class, 'singleAddToCart'])->name('si
 Route::get('cart-delete/{id}',[CartController::class, 'cartDelete'])->name('cart-delete');
 Route::post('cart-update',[CartController::class, 'cartUpdate'])->name('cart.update');
 Route::get('/checkout', function(){
-    
-
     $kota = Http::withHeaders([
         'key' => 'ae86c96ad91b3b085792b8345dca809c'
      ])->get('https://api.rajaongkir.com/starter/city');
@@ -81,6 +79,7 @@ Route::get('/checkout', function(){
 
 Route::post('cart/order',[OrderController::class, 'store'])->name('cart.order');
 Route::get('order/pdf/{id}',[OrderController::class, 'pdf'])->name('order.pdf');
+
 // Route::get('/income',[OrderController::class, 'incomeChart'])->name('product.order.income');
 Route::get('/cart',function(){
     return view("client.cart.index");
@@ -113,7 +112,7 @@ Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su-admin']], functio
 
 
 	Route::get('/income',[OrderController::class, 'incomeChart'])->name('book.order.income');
-  
+    Route::get('/sold',[ProductController::class, 'GetSoldBooks'])->name('book.sold');
 	
     // Order
     Route::resource('/order',OrderController::class);
@@ -138,6 +137,12 @@ Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su-admin']], functio
 	Route::put('profile/password', ['as' => 'admin.profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 
     Route::get('/order/show/{id}',[HomeController::class, 'orderShow'])->name('user.order.show');
+
+
+    Route::post('allorder/pdf',[OrderController::class, 'all_order_pdf'])->name('allorder.pdf');
+    Route::post('allbook/pdf',[ProductController::class, 'all_book_pdf'])->name('allbook.pdf');
+    Route::post('allsold/pdf',[ProductController::class, 'all_sold_pdf'])->name('allsold.pdf');
+    Route::post('allusers/pdf',[UserController::class, 'all_users_pdf'])->name('allusers.pdf');
 });
 
 Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su']], function () {

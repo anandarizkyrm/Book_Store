@@ -25,7 +25,12 @@ class Order extends Model
         return $this->hasMany(Cart::class);
     }
 
-    public static function getAllOrder($id){
+    public static function getAllOrder($start, $end){
+      
+        return Order::whereBetween('created_at', [$start, $end])->get();
+    }
+
+    public static function getOrder($id){
         return Order::find($id);
     }
 

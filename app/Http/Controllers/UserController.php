@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use PDF;
+
 
 class UserController extends Controller
 {
@@ -134,5 +136,16 @@ class UserController extends Controller
             request()->session()->flash('error','There is an error while deleting users');
         }
         return redirect()->route('user.index');
+    }
+
+    public function all_users_pdf(Request $request)
+    {
+        $user=User::getAllUsersReport($request->start, $request->end);
+        // return $order;
+
+        // return $file_name;
+        $pdf=PDF::loadview('client.layout.print.users',compact('user'), ['start' => $request->start, 'end' => $request->end]);
+        return $pdf->stream('users.pdf');
+
     }
 }

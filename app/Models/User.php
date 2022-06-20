@@ -62,4 +62,8 @@ class User extends Authenticatable
         return $count;
 
     }
+
+    public static function getAllUsersReport($start, $end){
+        return User::where('role', 'user')->whereBetween('created_at', [$start, $end])->get();
+    }
 }
