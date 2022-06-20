@@ -102,6 +102,7 @@ class OrderController extends Controller
             session()->forget('coupon');
 
         Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
+        
 
         // dd($users);        
         request()->session()->flash('success','Your product successfully placed in order');
@@ -221,12 +222,24 @@ class OrderController extends Controller
     }
     public function pdf(User $user, Request $request)
     {
-        $order=Order::getAllOrder($request->id);
+        $order=Order::getOrder($request->id);
         // return $order;
         $file_name=$order->order_number.'-'.$order->first_name.'.pdf';
         // return $file_name;
         $pdf=PDF::loadview('client.layout.print.invoice',compact('order'));
         return $pdf->stream('invoice.pdf');
+
+    }
+
+    public function all_order_pdf(User $user, Request $request)
+    {
+        $order=Order::getAllOrder($request->id, $request->start, $request->end);
+        // return $order;
+
+        // return $file_name;
+    
+        $pdf=PDF::loadview('client.layout.print.allorders',compact('order'), ['start' => $request->start, 'end' => $request->end]);
+        return $pdf->stream('allorders.pdf');
 
     }
 
