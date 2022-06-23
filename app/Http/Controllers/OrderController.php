@@ -23,7 +23,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders=Order::orderBy('id','DESC')->paginate(10);
+        $orders=Order::orderBy('id','ASC')->where('status' , '!=', 'cancelled')->paginate(10);
         return view('admin.order.index')->with('orders',$orders);
     }
 
@@ -109,6 +109,38 @@ class OrderController extends Controller
         return redirect()->route('home');
     }
 
+    public function cancelOrderView($id){
+        return view('user-dashboard.layouts.order.cancel')->with('id' , $id);
+    }
+
+    public function cancelOrder(Request $request, $id){
+
+        $order=Order::find($id);
+        $this->validate($request,[
+            'cancel_reason'=>'string|required'
+        ]);
+    
+        $order_data=$request->all();
+        $order_data['cancel_reason'] = $request->cancel_reason;
+        $order_data['status'] = 'cancelled';
+
+
+        dd($order_data);
+      
+        session()->forget('cart');
+        $status=$order->fill($order_data)->save();
+        if($status){
+            request()->session()->flash('success','Successfully updated order');
+        }
+        else{
+            request()->session()->flash('error','Error while updating order');
+        }
+       
+
+        // dd($users);        
+        request()->session()->flash('success','Your Order Cancelled');
+        return redirect()->route('user.order.index');
+    }
 
     /**
      * Display the specified resource.
@@ -146,7 +178,7 @@ class OrderController extends Controller
     {
         $order=Order::find($id);
         $this->validate($request,[
-            'status'=>'required|in:new,processing,delivered,cancel'
+            'status'=>'required|in:new,processing,delivered,cancelled'
         ]);
         $data=$request->all();
         // return $request->status;

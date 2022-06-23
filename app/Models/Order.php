@@ -51,14 +51,14 @@ class Order extends Model
     }
 
     public static function totalIncomeToday(){
-        $data = Order::whereDate('created_at', date('Y-m-d'))->where('status','delivered')->sum('total_amount');
+        $data = Order::whereDate('created_at', date('Y-m-d'))->where('status','delivered')->sum('sub_total');
         if($data){
             return $data;
         }
         return 0;
     }
     public static function totalIncomeThisMonth(){
-        $data = Order::whereMonth('created_at', date('m'))->where('status','delivered')->sum('total_amount');
+        $data = Order::whereMonth('created_at', date('m'))->where('status','delivered')->sum('sub_total');
         if($data){
             return $data;
         }
@@ -66,7 +66,7 @@ class Order extends Model
     }
 
     public static function totalIncomeThisYear(){
-        $data = Order::whereYear('created_at', date('Y'))->where('status','delivered')->sum('total_amount');
+        $data = Order::whereYear('created_at', date('Y'))->where('status','delivered')->sum('sub_total');
         if($data){
             return $data;
         }

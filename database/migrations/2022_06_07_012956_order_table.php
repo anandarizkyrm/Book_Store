@@ -28,6 +28,7 @@ class OrderTable extends Migration
             $table->enum('payment_status',['pending', 'paid', 'cancelled']);
             $table->enum("status", ['new', 'processing','delivered', 'cancelled']);
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('cancel_reason')->nullable();
             $table->unsignedBigInteger('shipping_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
             // $table->foreign('shipping_id')->references('id')->on('shipping')->onDelete('SET NULL');

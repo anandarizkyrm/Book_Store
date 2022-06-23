@@ -6,7 +6,7 @@
 
 <div style="padding: 40px; padding-top : 70px">
 <div class="card">
-<h5 class="card-header">Order<a href="{{route('order.pdf',$order->id)}}" class=" btn btn-sm btn-primary shadow-sm float-right"><i class="fas fa-download fa-sm text-white-50"></i> Generate PDF</a>
+<h5 class="card-header">Order<a href="{{route('order.pdf',$order->id)}}" class=" btn btn-sm btn-primary shadow-sm float-right"><i class="material-icons">download</i> Unduh Invoice</a>
   </h5>
   <div class="card-body">
     @if($order)
@@ -46,11 +46,11 @@
             </td>
             <td>
                 <a href="{{route('order.edit',$order->id)}}" class="btn btn-info btn-sm btn-round btn-just-icon "  data-toggle="tooltip" title="edit" data-placement="bottom"><i class="material-icons">edit</i></a>
-                <form method="POST" action="{{route('order.destroy',[$order->id])}}">
+                {{-- <form method="POST" action="{{route('order.destroy',[$order->id])}}">
                   @csrf
                   @method('delete')
                       <button class="btn btn-danger btn-sm btn-round btn-just-icon " data-id={{$order->id}}  data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>
-                </form>
+                </form> --}}
             </td>
 
         </tr>

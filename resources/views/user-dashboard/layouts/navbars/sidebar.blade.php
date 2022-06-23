@@ -6,7 +6,7 @@
   -->
 
   <div class="logo">
-    <a href="https://creative-tim.com/" class="simple-text logo-normal">
+    <a class="simple-text logo-normal">
     ADMIN ILKIYA 
     </a>
   </div>

@@ -84,20 +84,21 @@
   </div>
   <div class="invoice-description">
     <div class="invoice-left-top float-left">
-      <h6>Invoice to</h6>
-       <h3>{{$order->first_name}} {{$order->last_name}}</h3>
+      <h6>Kepada Pelanggan : </h6>
+       <h3>{{strtoupper($order->first_name)}}  {{strtoupper($order->last_name)}}</h3>
        <div class="address">
         
         <p>
-          <strong>Address: </strong>
-          {{ $order->address }}
+          <strong>Alamat: </strong>
+          {{ $order->address }}, {{$order->city}}
         </p>
+      
          <p><strong>Phone:</strong> {{ $order->phone }}</p>
          <p><strong>Email:</strong> {{ $order->email }}</p>
        </div>
     </div>
     <div class="invoice-right-top float-right" class="text-right">
-      <h3>Invoice #{{$order->cart_id}}</h3>
+      <h3>Tanggal #{{$order->cart_id}}</h3>
       <p>{{ $order->created_at->format('D d m Y') }}</p>
       {{-- <img class="img-responsive" src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(150)->generate(route('admin.product.order.show', $order->id )))}}"> --}}
     </div>
@@ -105,13 +106,13 @@
   </div>
   <section class="order_details pt-3">
     <div class="table-header">
-      <h5>Order Details</h5>
+      <h5>Rincian Pesanan</h5>
     </div>
     <table class="table table-bordered table-stripe">
       <thead>
         <tr>
-          <th scope="col" class="col-6">Product</th>
-          <th scope="col" class="col-3">Quantity</th>
+          <th scope="col" class="col-6">Judul Buku</th>
+          <th scope="col" class="col-3">Jumlah</th>
           <th scope="col" class="col-3">Total</th>
         </tr>
       </thead>
@@ -146,7 +147,7 @@
       @endif --}}
         <tr>
           <th scope="col" class="empty"></th>
-          <th scope="col" class="text-right ">Shipping:</th>
+          <th scope="col" class="text-right ">Ongkir:</th>
           <th><span>Rp. {{number_format($order->ongkir,2)}}</span></th>
         </tr>
         <tr>
@@ -162,12 +163,12 @@
     </table>
   </section>
   <div class="thanks mt-3">
-    <h4>Thank you for your business !!</h4>
+    <h4>Terima Kasih Sudah Berbelanja Disini !!</h4>
   </div>
   <div class="authority float-right mt-5">
     {{-- <p>-----------------------------------</p> --}}
-    <p class="text-center"> Ahmed Musa</p>
-    <h5>Authority Signature:</h5>
+    <p class="text-center font-bold">Ilkiya Store</p>
+    <h5>Muhammad Faqih:</h5>
   </div>
   <div class="clearfix"></div>
 @else

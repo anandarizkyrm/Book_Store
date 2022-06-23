@@ -193,8 +193,12 @@ Route::group(['prefix'=>'/user','middleware'=>['user']],function(){
     Route::get('/user-review/edit/{id}',[HomeController::class, 'productReviewEdit'])->name('user.productreview.edit');
     Route::patch('/user-review/update/{id}',[HomeController::class, 'productReviewUpdate'])->name('user.productreview.update');
     
+    Route::get('/user/cancel-order/{id}', [OrderController::class, 'cancelOrderView'])->name('user.cancel');
+    Route::patch('/user/cancel_order/{id}',[OrderController::class, 'cancelOrder'])->name('user.cancel.order');
     // Post comment
     Route::get('user-post/comment',[HomeController::class, 'userComment'])->name('user.post-comment.index');
+
+
     Route::delete('user-post/comment/delete/{id}',[HomeController::class, 'userCommentDelete'])->name('user.post-comment.delete');
     Route::get('user-post/comment/edit/{id}',[HomeController::class, 'userCommentEdit'])->name('user.post-comment.edit');
     Route::patch('user-post/comment/udpate/{id}',[HomeController::class, 'userCommentUpdate'])->name('user.post-comment.update');

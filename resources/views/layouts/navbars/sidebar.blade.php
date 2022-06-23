@@ -150,8 +150,14 @@
 
       <li class="nav-item{{ Request::is('admin/order') ? ' active' : ''}}">
         <a class="nav-link" href="{{ route('order.index') }}">
-          <i class="material-icons">money</i>
-          <p>{{ __('Order') }}</p>
+          <i class="material-icons">list</i>
+          <p>{{ __('Pesanan') }}</p>
+        </a>
+      </li>
+      <li class="nav-item{{ Request::is('admin/order_cancel') ? ' active' : ''}}">
+        <a class="nav-link" href="{{ route('order.index') }}">
+          <i class="material-icons">cancel</i>
+          <p>{{ __('Pesanan DiBatalkan') }}</p>
         </a>
       </li>
     

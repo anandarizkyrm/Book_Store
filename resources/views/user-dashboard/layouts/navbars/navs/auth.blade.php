@@ -14,7 +14,7 @@
 
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('admin') }}">
+          <a class="nav-link" href="/user">
             <i class="material-icons">dashboard</i>
             <p class="d-lg-none d-md-block">
               {{ __('Stats') }}

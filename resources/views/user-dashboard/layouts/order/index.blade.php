@@ -21,24 +21,24 @@
             <tr>
               <th>S.N.</th>
               <th>Order No.</th>
-              <th>Name</th>
+              <th>Nama</th>
               <th>Email</th>
-              <th>Quantity</th>
-              <th>Total Amount</th>
+              <th>Jumlah Barang</th>
+              <th>Total Harga</th>
               <th>Status</th>
-              <th>Action</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
               <th>S.N.</th>
               <th>Order No.</th>
-              <th>Name</th>
+              <th>Nama</th>
               <th>Email</th>
-              <th>Quantity</th>
-              <th>Total Amount</th>
+              <th>Jumlah Barang</th>
+              <th>Total Harga</th>
               <th>Status</th>
-              <th>Action</th>
+              <th>Aksi</th>
               </tr>
           </tfoot>
           <tbody>
@@ -50,7 +50,7 @@
                     <td>{{$order->first_name}} {{$order->last_name}}</td>
                     <td>{{$order->email}}</td>
                     <td>{{$order->quantity}}</td>
-                    <td>${{number_format($order->total_amount,2)}}</td>
+                    <td>Rp. {{number_format($order->total_amount,2)}}</td>
                     <td class="text-center">
                         @if($order->status=='new')
                           <span class="badge badge-primary">{{$order->status}}</span>
@@ -64,14 +64,10 @@
                     </td>
                     <td class="text-center">
                         <a href="{{route('user.order.show',$order->id)}}" class="btn btn-info btn-sm btn-round btn-just-icon " style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="material-icons">info</i></a>
-                        <form method="POST" action="{{route('user.order.delete',[$order->id])}}">
-                          @csrf 
-                          @method('delete')
-                              <button class="btn btn-danger btn-sm btn-round btn-just-icon dltBtn" data-id={{$order->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></i></button>
-
-                             
-                        </form>
-                    </td>
+                        @if($order->status == "processing" || $order->status == "new")
+                          <a href="{{route('user.cancel',$order->id)}}" class="btn btn-danger btn-sm btn-round btn-just-icon " style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="view" data-placement="bottom"><i class="material-icons">cancel</i></a>
+                        @endif
+                        </td>
                 </tr>  
               @endforeach
               @else

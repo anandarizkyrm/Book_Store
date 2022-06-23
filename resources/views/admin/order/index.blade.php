@@ -75,11 +75,11 @@
                     <td>
                         <a href="{{route('order.show',$order->id)}}" class="btn btn-info btn-sm btn-round btn-just-icon "  data-toggle="tooltip" title="view" data-placement="bottom"><i class="material-icons">info</i></a>
                         <a href="{{route('order.edit',$order->id)}}" class="btn btn-warning btn-sm btn-round btn-just-icon "  data-toggle="tooltip" title="edit" data-placement="bottom"><i class="material-icons">warning</i></a>
-                        <form method="POST" action="{{route('order.destroy',[$order->id])}}">
+                        {{-- <form method="POST" action="{{route('order.destroy',[$order->id])}}">
                           @csrf 
                           @method('delete')
                               <button class="btn btn-danger btn-sm btn-round btn-just-icon dltBtn" data-id={{$order->id}}  data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>
-                        </form>
+                        </form> --}}
                     </td>
                 </tr>  
             @endforeach
@@ -95,9 +95,9 @@
 </div>
 @endsection
 
-@push('styles')
-<link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+@push('css')
+  <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
   <style>
       div.dataTables_wrapper div.dataTables_paginate{
           display: none;
@@ -115,29 +115,22 @@
 @push('js')
 
   <!-- Page level plugins -->
-  <script src="{{asset('backend/vendor/datatables/jquery.dataTables.min.js')}}"></script>
-  <script src="{{asset('backend/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+  <script src="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+  
 
   <!-- Page level custom scripts -->
   <script src="{{asset('backend/js/demo/datatables-demo.js')}}"></script>
   <script>
+    
+    $('#product-dataTable').DataTable();
 
-      $('#product-dataTable').DataTable( {
-        "scrollX": false
-            "columnDefs":[
-                {
-                    "orderable":false,
-                    "targets":[10,11,12]
-                }
-            ]
-        } );
+// Sweet alert
 
-        // Sweet alert
+function deleteData(id){
 
-        function deleteData(id){
-
-        }
+}
   </script>
   <script>
       $(document).ready(function(){
