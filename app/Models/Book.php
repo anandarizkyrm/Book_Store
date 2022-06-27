@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Cart;
+use App\Models\Review;
 
 class Book extends Model
 {
@@ -28,6 +29,10 @@ class Book extends Model
         return Book::with('category')->orderBy('id', 'desc')->paginate(10);
     }
 
+    public function getReview(){
+        return $this->hasMany(Review::class,'book_id','id')->with('userInfo')->where('status','active')->orderBy('id','DESC');
+    }
+
     
     public static function getAllBooksReport($start, $end){
         return Book::whereBetween('created_at', [$start, $end])->get();
@@ -38,16 +43,14 @@ class Book extends Model
     public static function getAllDiscount($start, $end){
         return Book::where('discount', '>', 0)->whereBetween('created_at', [$start, $end])->get();
     }
-    public function getReview(){
-        return $this->hasMany('App\Models\Review','book_id','id')->with('user_info')->orderBy('id','DESC');
-    }
+   
     
     public function rel_books(){
         return $this->hasMany('App\Models\Book','category_id','category_id')->where('status','active')->orderBy('id','DESC')->limit(8);
     }
 
     public static function getBookBySlug($slug){
-        return Book::with(['category','rel_books','getReview'])->where('slug',$slug)->first();
+        return Book::with(['category','getReview'])->where('slug',$slug)->first();
     }
     public static function countActiveBook(){
         $data=Book::where('status','active')->count();

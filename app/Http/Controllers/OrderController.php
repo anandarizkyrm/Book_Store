@@ -23,7 +23,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders=Order::orderBy('id','ASC')->where('status' , '!=', 'cancelled')->paginate(10);
+        $orders=Order::orderBy('id','ASC')->where('status' , '!=', 'cancelled')->get();
         return view('admin.order.index')->with('orders',$orders);
     }
 
@@ -113,6 +113,12 @@ class OrderController extends Controller
         return view('user-dashboard.layouts.order.cancel')->with('id' , $id);
     }
 
+    public function canceledOrderViewAdmin(){
+        $orders=Order::orderBy('id','ASC')->where('status' , '=', 'cancelled')->get();
+
+        return view('admin.order.cancel')->with('orders', $orders);
+    }
+
     public function cancelOrder(Request $request, $id){
 
         $order=Order::find($id);
@@ -124,9 +130,6 @@ class OrderController extends Controller
         $order_data['cancel_reason'] = $request->cancel_reason;
         $order_data['status'] = 'cancelled';
 
-
-        dd($order_data);
-      
         session()->forget('cart');
         $status=$order->fill($order_data)->save();
         if($status){
@@ -267,15 +270,21 @@ class OrderController extends Controller
 
     public function all_order_pdf(User $user, Request $request)
     {
-        $order=Order::getAllOrder($request->id, $request->start, $request->end);
-        // return $order;
-
-        // return $file_name;
-    
+        $order=Order::getAllOrder( $request->start, $request->end);
         $pdf=PDF::loadview('client.layout.print.allorders',compact('order'), ['start' => $request->start, 'end' => $request->end]);
         return $pdf->stream('allorders.pdf');
 
     }
+
+    public function cancelOrderPdf(User $user, Request $request)
+    {
+        $order=Order::getAllOrderCanceled( $request->start, $request->end);
+        $pdf=PDF::loadview('client.layout.print.allcancell',compact('order'), ['start' => $request->start, 'end' => $request->end]);
+        return $pdf->stream('allcancell.pdf');
+
+    }
+
+    
 
     public function chart_income_pdf(Request $request)
     {

@@ -1,6 +1,5 @@
 
-
-@extends('layouts.app', ['activePage' => 'profile', 'titlePage' => __('Order')])
+@extends('layouts.app', ['activePage' => 'profile', 'titlePage' => __('Cancel_Order')])
 
 @section('content')
  <!-- DataTales Example -->
@@ -8,8 +7,8 @@
  <div class="card shadow mb-4">
 
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary float-left">Daftar Order</h6>
-      <form style="width: 28rem; display : flex; justify-content : center ; align-items : center;" class="float-right" method="post" action="{{route('allorder.pdf')}}"  >
+      <h6 class="m-0 font-weight-bold text-primary float-left">Daftar Order Yang Dicancel</h6>
+      <form style="width: 28rem; display : flex; justify-content : center ; align-items : center;" class="float-right" method="post" action="{{route('cancel.order.pdf')}}"  >
         {{csrf_field()}}
           <label style="padding: 0px; margin : 0px; color :rgb(36, 36, 36)" for="">Dari</label>
           <input  style="margin: 5px; color : rgb(112, 112, 112); border : 1px solid rgb(226, 226, 226) border-radius : 10px;" type="date" name="start" />
@@ -26,26 +25,24 @@
             <tr>
               <th>S.N.</th>
               <th>Order No.</th>
-              <th>Name</th>
+              <th>Nama</th>
               <th>Email</th>
-              <th>Quantity</th>
-              <th>Shipping Charge</th>
+              <th>Jumlah</th>
+              <th>Alasan Pembatalan</th>
               <th>Total Amount</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th>Tanggal</th>
             </tr>
           </thead>
           <tfoot>
             <tr>
               <th>S.N.</th>
               <th>Order No.</th>
-              <th>Name</th>
+              <th>Nama</th>
               <th>Email</th>
-              <th>Quantity</th>
-              <th>Shipping Charge</th>
+              <th>Jumlah</th>
+              <th>Alasan Pembatalan</th>
               <th>Total Amount</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th>Tanggal</th>
               </tr>
           </tfoot>
           <tbody>
@@ -59,33 +56,17 @@
                     <td>{{$order->first_name}} {{$order->last_name}}</td>
                     <td>{{$order->email}}</td>
                     <td>{{$order->quantity}}</td>
-                    <td> Rp. {{number_format($order->ongkir,2)}}</td>
+                    <td class="text-center">{{$order->cancel_reason ? $order->cancel_reason : '-'}}</td>
                     <td>Rp. {{number_format($order->total_amount,2)}}</td>
                     <td>
-                        @if($order->status=='new')
-                          <span class="badge badge-primary">{{$order->status}}</span>
-                        @elseif($order->status=='process')
-                          <span class="badge badge-warning">{{$order->status}}</span>
-                        @elseif($order->status=='delivered')
-                          <span class="badge badge-success">{{$order->status}}</span>
-                        @else
-                          <span class="badge badge-danger">{{$order->status}}</span>
-                        @endif
+                        {{$order->updated_at}}
                     </td>
-                    <td>
-                        <a href="{{route('order.show',$order->id)}}" class="btn btn-info btn-sm btn-round btn-just-icon "  data-toggle="tooltip" title="view" data-placement="bottom"><i class="material-icons">info</i></a>
-                        <a href="{{route('order.edit',$order->id)}}" class="btn btn-warning btn-sm btn-round btn-just-icon "  data-toggle="tooltip" title="edit" data-placement="bottom"><i class="material-icons">warning</i></a>
-                        {{-- <form method="POST" action="{{route('order.destroy',[$order->id])}}">
-                          @csrf 
-                          @method('delete')
-                              <button class="btn btn-danger btn-sm btn-round btn-just-icon dltBtn" data-id={{$order->id}}  data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="material-icons">delete</i></button>
-                        </form> --}}
-                    </td>
+                  
                 </tr>  
             @endforeach
           </tbody>
         </table>
-        
+    
         @else
         <h6 class="text-center">No orders found!!! Please order some products</h6>
         @endif

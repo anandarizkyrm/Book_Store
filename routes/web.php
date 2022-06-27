@@ -50,6 +50,8 @@ Route::post('user/register',[ClientController::class, 'registerSubmit'])->name('
 Route::resource('/review',ReviewController::class);
 Route::post('product/{slug}/review',[ReviewController::class, 'store'])->name('review.store');
 	
+
+
 Route::get('product-detail/{slug}',[ClientController::class , 'productDetail'])->name('product-detail');
 // Route::get('/about-us','ClientController@about')->name('about');
 // Route::get('/contact-us','ClientController@contact')->name('contact');
@@ -116,7 +118,9 @@ Route::group(['prefix'=>'/admin', 'middleware' => ['auth', 'su-admin']], functio
     
     Route::patch('discount/{id}', [ProductController::class, 'EditDiscount'])->name('discount.edit');
 	
-    
+        
+    Route::get('/user/cancel-order', [OrderController::class, 'canceledOrderViewAdmin'])->name('canceled.view');
+    Route::post('cancelorderpdf', [OrderController::class, 'cancelOrderPdf'])->name('cancel.order.pdf');
     Route::resource('category', CategoryController::class)->name('*','category');
 
 	Route::resource('publisher', PublisherController::class)->name('*','publisher');

@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'order_number', 'sub_total', 'total_amount', 'quantity', 'transfer_evidence', 'status', 'user_id', 'ongkir', 'city' , 'email', 'phone', 'address', 'post_code', 'first_name','last_name' ];
+    protected $fillable = [ 'order_number', 'sub_total', 'total_amount', 'quantity', 'transfer_evidence', 'status', 'user_id', 'ongkir', 'city' , 'email', 'phone', 'address', 'post_code', 'first_name','last_name' , 'cancel_reason'];
 
     public function user()
     {
@@ -26,10 +26,11 @@ class Order extends Model
     }
 
     public static function getAllOrder($start, $end){
-      
-        return Order::whereBetween('created_at', [$start, $end])->get();
+        return Order::where('status' , '!=', "cancelled")->whereBetween('created_at', [$start, $end])->get();
     }
-
+    public static function getAllOrderCanceled($start, $end){
+        return Order::where('status', '=', 'cancelled')->whereBetween('created_at', [$start, $end])->get();
+    }
     public static function getOrder($id){
         return Order::find($id);
     }

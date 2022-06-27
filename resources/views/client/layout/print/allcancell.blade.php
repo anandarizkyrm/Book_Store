@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Laporan Data Pesanan</title>
+    <title>Laporan Data Pesanan Yang Dibatalkan</title>
 </head>
 <body>
 
@@ -22,14 +22,13 @@
                 <thead>
                     <tr style="font-size: 12px;">
                         <th >No</th>
-                        <th >Nama Pemesan</th>
-                        <th >Nomor Order</th>
-                        <th >Jumlah </th>
-                        <th >Harga (Rp.)</th>
-                        <th >Ongkir (Rp.)</th>
-                      
-                        <th >Total Harga (Rp.)</th>
-                        <th >Tanggal Pesan</th>
+                        <th>Order No.</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>Jumlah</th>
+                        <th>Alasan Pembatalan</th>
+                        <th>Total Amount</th>
+                        <th>Tanggal</th>
                     
                     </tr>
                 </thead>
@@ -37,15 +36,12 @@
                     @foreach ($order as $order)
                     <tr style="font-size: 12px;">
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$order->first_name}}</td>
                         <td>{{$order->order_number}}</td>
+                        <td>{{$order->email}}</td>
                         <td>{{$order->quantity}}</td>
-                        <td >{{number_format($order->total_amount,2)}}</td>
-                        <td >{{number_format($order->ongkir,2)}}</td>
-                 
+                        <td class="text-center">{{$order->cancel_reason ? $order->cancel_reason : '-'}}</td>
                         <td >{{number_format($order->total_amount + $order->ongkir,2)}}</td>
-
-                        <td>{{$order->created_at}}</td>
+                        <td>{{$order->updated_at}}</td>
                       
                     </tr>
                     @endforeach

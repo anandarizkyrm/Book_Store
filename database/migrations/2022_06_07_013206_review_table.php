@@ -21,6 +21,7 @@ class ReviewTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
             $table->foreign('book_id')->references('id')->on('books')->onDelete('SET NULL');
             $table->tinyInteger('rating')->default(0);
+            $table->string('review');
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });

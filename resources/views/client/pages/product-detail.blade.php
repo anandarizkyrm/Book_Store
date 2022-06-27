@@ -70,7 +70,7 @@
 												<div class="rating-main">
 													<ul class="rating">
 														@php
-															$rate=ceil($product_detail->getReview->avg('rate'))
+															$rate=ceil($product_detail->getReview->avg('rating'))
 														@endphp
 															@for($i=1; $i<=5; $i++)
 																@if($rate>=$i)
@@ -80,7 +80,7 @@
 																@endif
 															@endfor
 													</ul>
-													<a href="#" class="total-review">({{$product_detail['getReview']->count()}}) Review</a>
+													<a href="#" class="total-review">({{$product_detail['getReview']->count()}}) Ulasan</a>
                                                 </div>
                                                 @php 
                                                     $after_discount=($product_detail->price-(($product_detail->price*$product_detail->discount)/100));
@@ -101,20 +101,7 @@
 											</div> --}}
 											<!--/ End Color -->
 											<!-- Size -->
-											@if($product_detail->size)
-												<div class="size mt-4">
-													<h4>Size</h4>
-													<ul>
-														@php 
-															$sizes=explode(',',$product_detail->size);
-															// dd($sizes);
-														@endphp
-														@foreach($sizes as $size)
-														<li><a href="#" class="one">{{$size}}</a></li>
-														@endforeach
-													</ul>
-												</div>
-											@endif
+							
 											<!--/ End Size -->
 											<!-- Product Buy -->
 											<div class="product-buy">
@@ -153,33 +140,28 @@
 										</div>
 									</div>
 								</div>
+								<div class="tab-pane fade show active" id="description" role="tabpanel">
+									<div class="single-des">
+										<h6>Deskripsi Buku :</h6>
+										<p>{!! ($product_detail->description) !!}</p>
+									</div>		
+								</div>
 								<div class="row">
 									<div class="col-12">
 										<div class="product-info">
 											<div class="nav-main">
 												<!-- Tab Nav -->
 												<ul class="nav nav-tabs" id="myTab" role="tablist">
-													<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description" role="tab">Description</a></li>
-													<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews</a></li>
+													<li style="border : 1px solid black;" class="nav-item"><a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews</a></li>
 												</ul>
 												<!--/ End Tab Nav -->
 											</div>
-											<div class="tab-content" id="myTabContent">
+											<div >
 												<!-- Description Tab -->
-												<div class="tab-pane fade show active" id="description" role="tabpanel">
-													<div class="tab-single">
-														<div class="row">
-															<div class="col-12">
-																<div class="single-des">
-																	<p>{!! ($product_detail->description) !!}</p>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
+											
 												<!--/ End Description Tab -->
 												<!-- Reviews Tab -->
-												<div class="tab-pane fade" id="reviews" role="tabpanel">
+												<div>
 													<div class="tab-single review-panel">
 														<div class="row">
 															<div class="col-12">
@@ -201,17 +183,17 @@
                                                                             <div class="rating_box">
                                                                                   <div class="star-rating">
                                                                                     <div class="star-rating__wrap">
-                                                                                      <input class="star-rating__input" id="star-rating-5" type="radio" name="rate" value="5">
-                                                                                      <label class="star-rating__ico fa fa-star-o" for="star-rating-5" title="5 out of 5 stars"></label>
-                                                                                      <input class="star-rating__input" id="star-rating-4" type="radio" name="rate" value="4">
-                                                                                      <label class="star-rating__ico fa fa-star-o" for="star-rating-4" title="4 out of 5 stars"></label>
-                                                                                      <input class="star-rating__input" id="star-rating-3" type="radio" name="rate" value="3">
-                                                                                      <label class="star-rating__ico fa fa-star-o" for="star-rating-3" title="3 out of 5 stars"></label>
-                                                                                      <input class="star-rating__input" id="star-rating-2" type="radio" name="rate" value="2">
-                                                                                      <label class="star-rating__ico fa fa-star-o" for="star-rating-2" title="2 out of 5 stars"></label>
-                                                                                      <input class="star-rating__input" id="star-rating-1" type="radio" name="rate" value="1">
-																					  <label class="star-rating__ico fa fa-star-o" for="star-rating-1" title="1 out of 5 stars"></label>
-																					  @error('rate')
+																						<input class="star-rating__input" id="star-rating-1" type="radio" name="rating" value="1">
+																						<label class="star-rating__ico fa fa-star-o" for="star-rating-1" title="1 out of 5 stars"></label>
+																						<input class="star-rating__input" id="star-rating-2" type="radio" name="rating" value="2">
+																						<label class="star-rating__ico fa fa-star-o" for="star-rating-2" title="2 out of 5 stars"></label>
+																						<input class="star-rating__input" id="star-rating-3" type="radio" name="rating" value="3">
+																						<label class="star-rating__ico fa fa-star-o" for="star-rating-3" title="3 out of 5 stars"></label>
+																						<input class="star-rating__input" id="star-rating-4" type="radio" name="rating" value="4">
+																						<label class="star-rating__ico fa fa-star-o" for="star-rating-4" title="4 out of 5 stars"></label>
+																						<input class="star-rating__input" id="star-rating-5" type="radio" name="rating" value="5">
+																						<label class="star-rating__ico fa fa-star-o" for="star-rating-5" title="5 out of 5 stars"></label>
+																					  @error('rating')
 																						<span class="text-danger">{{$message}}</span>
 																					  @enderror
                                                                                     </div>
@@ -249,33 +231,27 @@
 																				$rate +=$rate
 																			}
 																		@endphp --}}
-																		<h4>{{ceil($product_detail->getReview->avg('rate'))}} <span>(Overall)</span></h4>
+																		<h4>{{ceil($product_detail->getReview->avg('rating'))}} <span>(Overall)</span></h4>
 																		<span>Based on {{$product_detail->getReview->count()}} Comments</span>
 																	</div>
 																	@foreach($product_detail['getReview'] as $data)
 																	<!-- Single Rating -->
 																	<div class="single-rating">
-																		<div class="rating-author">
-																			@if($data->user_info['photo'])
-																			<img src="{{$data->user_info['photo']}}" alt="{{$data->user_info['photo']}}">
-																			@else 
-																			<img src="{{asset('backend/img/avatar.png')}}" alt="Profile.jpg">
-																			@endif
-																		</div>
+																	
 																		<div class="rating-des">
-																			<h6>{{$data->user_info['name']}}</h6>
+																			<h6>{{$data->userInfo['name']}}</h6>
 																			<div class="ratings">
 
 																				<ul class="rating">
 																					@for($i=1; $i<=5; $i++)
-																						@if($data->rate>=$i)
+																						@if($data->rating>=$i)
 																							<li><i class="fa fa-star"></i></li>
 																						@else 
 																							<li><i class="fa fa-star-o"></i></li>
 																						@endif
 																					@endfor
 																				</ul>
-																				<div class="rate-count">(<span>{{$data->rate}}</span>)</div>
+																				<div class="rate-count">(<span>{{$data->rating}}</span>)</div>
 																			</div>
 																			<p>{{$data->review}}</p>
 																		</div>

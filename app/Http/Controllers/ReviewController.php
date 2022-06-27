@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Models\Book;
+use App\Models\User;
 use Notification;
 use App\Notifications\StatusNotification;
-use App\User;
+
 use App\Models\Review;
 class ReviewController extends Controller
 {
@@ -17,7 +18,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews=Review::getAllReview();
+        $reviews=Review::getAllUserReview();
         
         return view('backend.review.index')->with('reviews',$reviews);
     }
@@ -41,25 +42,31 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'rate'=>'required|numeric|min:1'
+            'rating'=>'required|numeric|min:1'
         ]);
-        $product_info=Product::getProductBySlug($request->slug);
+    $product_info=Book::getBookBySlug($request->slug);
         //  return $product_info;
         // return $request->all();
         $data=$request->all();
-        $data['product_id']=$product_info->id;
+        $data['book_id']=$product_info->id;
         $data['user_id']=$request->user()->id;
         $data['status']='active';
-        // dd($data);
-        $status=ProductReview::create($data);
+
+     
+        if(Review::where('user_id', $request->user()->id)->where('book_id', $product_info->id)->count() > 0){
+            request()->session()->flash('error','You Already Review This Product');
+            return redirect()->back();
+        }
+      
+        $status=Review::create($data);
 
         $user=User::where('role','admin')->get();
         $details=[
-            'title'=>'New Product Rating!',
+            'name'=>'New Book Rating!',
             'actionURL'=>route('product-detail',$product_info->slug),
             'fas'=>'fa-star'
         ];
-        Notification::send($user,new StatusNotification($details));
+       
         if($status){
             request()->session()->flash('success','Thank you for your feedback');
         }
@@ -88,9 +95,13 @@ class ReviewController extends Controller
      */
     public function edit($id)
     {
-        $review=ProductReview::find($id);
+        $review=Review::find($id);
         // return $review;
         return view('backend.review.edit')->with('review',$review);
+    }
+
+    public function user_info(){
+        return $this->hasOne('App\User','id','user_id');
     }
 
     /**
@@ -102,9 +113,9 @@ class ReviewController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $review=ProductReview::find($id);
+        $review=Review::find($id);
         if($review){
-            // $product_info=Product::getProductBySlug($request->slug);
+            // $product_info=Product::getBookBySlug($request->slug);
             //  return $product_info;
             // return $request->all();
             $data=$request->all();
@@ -140,7 +151,7 @@ class ReviewController extends Controller
      */
     public function destroy($id)
     {
-        $review=ProductReview::find($id);
+        $review=Review::find($id);
         $status=$review->delete();
         if($status){
             request()->session()->flash('success','Successfully deleted review');

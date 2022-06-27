@@ -155,7 +155,7 @@
         </a>
       </li>
       <li class="nav-item{{ Request::is('admin/order_cancel') ? ' active' : ''}}">
-        <a class="nav-link" href="{{ route('order.index') }}">
+        <a class="nav-link" href="{{ route('canceled.view') }}">
           <i class="material-icons">cancel</i>
           <p>{{ __('Pesanan DiBatalkan') }}</p>
         </a>
